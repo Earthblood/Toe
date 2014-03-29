@@ -39,12 +39,4 @@ public enum Skill {
         }
         return null;
     }
-    public static Skill byDisplayName(String displayName){
-        for (Skill skill : Skill.values()) {
-            if(EarthbloodApp.getContext().getString(skill.resourceId).equals(displayName)){
-                return skill;
-            }
-        }
-        return null;
-    }
 }
