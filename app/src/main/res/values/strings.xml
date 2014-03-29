@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Tic Tac Toe</string>
+    <string name="difficulty">Difficulty</string>
+    <string name="number_of_players">Number of Players</string>
+    <string name="coin_toss">Coin Toss</string>
+    <string name="number_1">1</string>
+    <string name="number_2">2</string>
+
+    <string name="action_settings">Settings</string>
+
+    <!-- Skill Level-->
+    <string name="skill_easy">Easy</string>
+    <string name="skill_normal">Normal</string>
+    <string name="skill_hard">Hard</string>
+
+</resources>
