@@ -1,7 +1,7 @@
 package com.earthblood.tictactoe.util;
 
 
-import com.earthblood.tictactoe.application.EarthbloodApp;
+import com.earthblood.tictactoe.application.ToeApp;
 import com.earthblood.tictactoe.R;
 
 /**
@@ -10,9 +10,9 @@ import com.earthblood.tictactoe.R;
  */
 public enum Skill {
 
-    EASY(1, R.string.skill_easy),
-    NORMAL(2, R.string.skill_normal),
-    HARD(3, R.string.skill_hard);
+    EASY  (1,R.string.skill_easy),
+    NORMAL(2,R.string.skill_normal),
+    HARD  (3,R.string.skill_hard);
 
     private int id;
     private int resourceId;
@@ -28,7 +28,7 @@ public enum Skill {
 
     @Override
     public String toString() {
-        return EarthbloodApp.getContext().getString(resourceId);
+        return ToeApp.getResourceString(resourceId);
     }
 
     public static Skill byId(int id){

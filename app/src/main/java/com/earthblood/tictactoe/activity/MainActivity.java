@@ -10,28 +10,68 @@ import android.widget.ArrayAdapter;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 
-import com.earthblood.tictactoe.application.EarthbloodApp;
+import com.earthblood.tictactoe.application.ToeApp;
 import com.earthblood.tictactoe.R;
+import com.earthblood.tictactoe.engine.ToeGame;
 import com.earthblood.tictactoe.util.Skill;
+
+import javax.inject.Inject;
+
+import roboguice.activity.RoboActivity;
+import roboguice.inject.InjectView;
 
 /**
  * @author John Piser developer@earthblood.com
  *         Copyright 2014.
  */
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends RoboActivity {
+
+    @InjectView(R.id.skill_spinner)
+    Spinner skillSpinner;
+
+    @Inject
+    ToeGame toeGame;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        setupSkill();
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
         initializeSkill();
         initializeNumberOfPlayers();
     }
 
-    private void initializeNumberOfPlayers() {
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
 
-        switch (EarthbloodApp.getToeGame().getNumOfPlayers()){
+    private void setupSkill() {
+        skillSpinner.setAdapter(new ArrayAdapter<Skill>(this, android.R.layout.simple_list_item_1, Skill.values()));
+        skillSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Skill skill = (Skill) parent.getItemAtPosition(position);
+                toeGame.setSkill(skill);
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+    }
+
+    private void initializeNumberOfPlayers() {
+        switch (toeGame.getNumOfPlayers()){
             case 1:
                 RadioButton radioButton = (RadioButton)findViewById(R.id.gameplay_one_player);
                 radioButton.setChecked(true);
@@ -44,47 +84,26 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private void initializeSkill() {
-
-        //Skill Spinner
-        Spinner spinner = (Spinner) findViewById(R.id.skill_spinner);
-        spinner.setAdapter(new ArrayAdapter<Skill>(this, android.R.layout.simple_list_item_1, Skill.values()));
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Skill skill = (Skill) parent.getItemAtPosition(position);
-                EarthbloodApp.getToeGame().setSkill(skill);
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-        //Set Spinner Value
-        ArrayAdapter adapter = (ArrayAdapter)spinner.getAdapter();
-        int position = adapter.getPosition(EarthbloodApp.getToeGame().getSkill());
-        spinner.setSelection(position);
+        ArrayAdapter adapter = (ArrayAdapter)skillSpinner.getAdapter();
+        int position = adapter.getPosition(toeGame.getSkill());
+        skillSpinner.setSelection(position);
     }
 
+    /**
+     * User Interactions
+     */
     public void onSetNumberOfPlayers(View view){
         boolean checked = ((RadioButton) view).isChecked();
         switch(view.getId()) {
             case R.id.gameplay_one_player:
                 if (checked)
-                    EarthbloodApp.getToeGame().setNumOfPlayers(1);
+                    toeGame.setNumOfPlayers(1);
                     break;
             case R.id.gameplay_two_player:
                 if (checked)
-                    EarthbloodApp.getToeGame().setNumOfPlayers(2);
+                    toeGame.setNumOfPlayers(2);
                     break;
         }
-    }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
     }
 
     @Override
