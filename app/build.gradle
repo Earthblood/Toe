@@ -13,7 +13,7 @@ android {
         versionName "1.0"
     }
     sourceSets {
-        instrumentTest.setRoot('src/test')
+        androidTest.setRoot('src/test')
     }
     buildTypes {
         release {

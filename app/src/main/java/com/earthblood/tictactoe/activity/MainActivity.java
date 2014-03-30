@@ -1,16 +1,13 @@
 package com.earthblood.tictactoe.activity;
 
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.RadioButton;
 import android.widget.Spinner;
+import android.widget.TextView;
 
-import com.earthblood.tictactoe.application.ToeApp;
 import com.earthblood.tictactoe.R;
 import com.earthblood.tictactoe.engine.ToeGame;
 import com.earthblood.tictactoe.util.Skill;
@@ -18,17 +15,27 @@ import com.earthblood.tictactoe.util.Skill;
 import javax.inject.Inject;
 
 import roboguice.activity.RoboActivity;
+import roboguice.inject.ContentView;
 import roboguice.inject.InjectView;
+
 
 /**
  * @author John Piser developer@earthblood.com
  *         Copyright 2014.
  */
 
+@ContentView(R.layout.activity_main)
 public class MainActivity extends RoboActivity {
 
     @InjectView(R.id.skill_spinner)
     Spinner skillSpinner;
+    @InjectView(R.id.gameplay_one_player)
+    RadioButton onePlayerButton;
+    @InjectView(R.id.gameplay_two_player)
+    RadioButton twoPlayerButton;
+    @InjectView(R.id.difficulty_label)
+    TextView difficultyLabel;
+
 
     @Inject
     ToeGame toeGame;
@@ -38,7 +45,6 @@ public class MainActivity extends RoboActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
         setupSkill();
     }
 
@@ -49,10 +55,20 @@ public class MainActivity extends RoboActivity {
         initializeNumberOfPlayers();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
+
+    private void setPlayers(boolean onePlayerGame){
+        if(onePlayerGame){
+            skillSpinner.setVisibility(View.VISIBLE);
+            difficultyLabel.setVisibility(View.VISIBLE);
+            onePlayerButton.setChecked(true);
+            toeGame.setNumOfPlayers(1);
+        }
+        else{
+            skillSpinner.setVisibility(View.INVISIBLE);
+            difficultyLabel.setVisibility(View.INVISIBLE);
+            twoPlayerButton.setChecked(true);
+            toeGame.setNumOfPlayers(2);
+        }
     }
 
     private void setupSkill() {
@@ -71,16 +87,7 @@ public class MainActivity extends RoboActivity {
     }
 
     private void initializeNumberOfPlayers() {
-        switch (toeGame.getNumOfPlayers()){
-            case 1:
-                RadioButton radioButton = (RadioButton)findViewById(R.id.gameplay_one_player);
-                radioButton.setChecked(true);
-                break;
-            case 2:
-                RadioButton radioButton2 = (RadioButton)findViewById(R.id.gameplay_two_player);
-                radioButton2.setChecked(true);
-                break;
-        }
+        setPlayers(toeGame.getNumOfPlayers() == 1);
     }
 
     private void initializeSkill() {
@@ -94,28 +101,11 @@ public class MainActivity extends RoboActivity {
      */
     public void onSetNumberOfPlayers(View view){
         boolean checked = ((RadioButton) view).isChecked();
-        switch(view.getId()) {
-            case R.id.gameplay_one_player:
-                if (checked)
-                    toeGame.setNumOfPlayers(1);
-                    break;
-            case R.id.gameplay_two_player:
-                if (checked)
-                    toeGame.setNumOfPlayers(2);
-                    break;
+        if(checked) {
+            setPlayers(checked && (R.id.gameplay_one_player == view.getId()));
         }
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
+
 
 }
