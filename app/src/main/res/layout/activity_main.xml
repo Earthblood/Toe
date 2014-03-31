@@ -28,12 +28,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/number_1"
-            android:onClick="onSetNumberOfPlayers"/>
+            android:onClick="setNumberOfPlayers"/>
         <RadioButton android:id="@+id/gameplay_two_player"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/number_2"
-            android:onClick="onSetNumberOfPlayers"/>
+            android:onClick="setNumberOfPlayers"/>
     </RadioGroup>
 
 

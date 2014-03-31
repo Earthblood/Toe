@@ -15,15 +15,17 @@ import com.google.inject.Singleton;
  *         Copyright 2014.
  */
 
-@Singleton
 public class ToeGame {
 
     public static final String PREF_SKILL_ID = "PREF_SKILL_ID";
     public static final String PREF_NUMBER_OF_PLAYERS = "PREF_NUMBER_OF_PLAYERS";
 
-    @Inject
     private PreferenceHelper preferenceHelper;
 
+    @Inject
+    public ToeGame(PreferenceHelper preferenceHelper){
+        this.preferenceHelper = preferenceHelper;
+    }
 
     public void setSkill(Skill skill){
         preferenceHelper.putPreference(skill.getId(), PREF_SKILL_ID, Context.MODE_PRIVATE);

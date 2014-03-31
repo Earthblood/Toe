@@ -1,4 +1,4 @@
-package com.earthblood.tictactoe.application;
+package com.earthblood.tictactoe.guice;
 
 import com.earthblood.tictactoe.helper.PreferenceHelper;
 import com.earthblood.tictactoe.helper.PreferenceHelperImpl;

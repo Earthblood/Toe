@@ -2,10 +2,8 @@ package com.earthblood.tictactoe.application;
 
 import android.app.Application;
 import android.content.Context;
-import android.content.SharedPreferences;
 
-import com.earthblood.tictactoe.engine.ToeGame;
-import com.google.inject.Inject;
+import com.earthblood.tictactoe.guice.ToeRoboModule;
 
 import roboguice.RoboGuice;
 

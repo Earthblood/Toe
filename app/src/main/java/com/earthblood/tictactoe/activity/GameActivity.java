@@ -6,12 +6,16 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v7.app.ActionBarActivity;
 
+import roboguice.activity.RoboActivity;
+
 /**
  * @author John Piser developer@earthblood.com
  *         Copyright 2014.
  */
 
-public class GameActivity extends ActionBarActivity implements LoaderManager.LoaderCallbacks<Cursor> {
+public class GameActivity extends RoboActivity implements LoaderManager.LoaderCallbacks<Cursor> {
+
+
 
 
 

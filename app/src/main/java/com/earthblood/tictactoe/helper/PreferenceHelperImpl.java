@@ -18,7 +18,7 @@ public class PreferenceHelperImpl implements PreferenceHelper {
     public static final String SHARED_PREF_GAME_SETTINGS = "SHARED_PREF_GAME_SETTINGS";
 
     @Inject
-    Application application;
+    private Application application;
 
 
     public int getPreference(String key, int defaultValue){

@@ -99,11 +99,8 @@ public class MainActivity extends RoboActivity {
     /**
      * User Interactions
      */
-    public void onSetNumberOfPlayers(View view){
-        boolean checked = ((RadioButton) view).isChecked();
-        if(checked) {
-            setPlayers(checked && (R.id.gameplay_one_player == view.getId()));
-        }
+    public void setNumberOfPlayers(View view){
+            setPlayers(R.id.gameplay_one_player == view.getId());
     }
 
 
