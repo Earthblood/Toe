@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import com.earthblood.tictactoe.R;
 import com.earthblood.tictactoe.engine.ToeGame;
+import com.earthblood.tictactoe.helper.CoinTossHelper;
+import com.earthblood.tictactoe.util.GameSymbol;
 import com.earthblood.tictactoe.util.Skill;
 
 import javax.inject.Inject;
@@ -27,19 +29,15 @@ import roboguice.inject.InjectView;
 @ContentView(R.layout.activity_main)
 public class MainActivity extends RoboActivity {
 
-    @InjectView(R.id.skill_spinner)
-    Spinner skillSpinner;
-    @InjectView(R.id.gameplay_one_player)
-    RadioButton onePlayerButton;
-    @InjectView(R.id.gameplay_two_player)
-    RadioButton twoPlayerButton;
-    @InjectView(R.id.difficulty_label)
-    TextView difficultyLabel;
+    @InjectView(R.id.skill_spinner)          Spinner skillSpinner;
+    @InjectView(R.id.gameplay_one_player)    RadioButton onePlayerButton;
+    @InjectView(R.id.gameplay_two_player)    RadioButton twoPlayerButton;
+    @InjectView(R.id.difficulty_label)       TextView difficultyLabel;
+    @InjectView(R.id.message_you_will_be)    TextView messageYouWillBe;
+    @InjectView(R.id.turn_display)           TextView turnDisplay;
 
-
-    @Inject
-    ToeGame toeGame;
-
+    @Inject ToeGame toeGame;
+    @Inject CoinTossHelper coinTossHelper;
 
 
     @Override
@@ -53,6 +51,12 @@ public class MainActivity extends RoboActivity {
         super.onResume();
         initializeSkill();
         initializeNumberOfPlayers();
+        setWhoGoesFirst(toeGame.getTurn());
+    }
+
+    private void setWhoGoesFirst(GameSymbol turn) {
+        toeGame.setTurn(turn);
+        turnDisplay.setText(getString(R.string.who_goes_first, turn.getValue()));
     }
 
 
@@ -60,12 +64,14 @@ public class MainActivity extends RoboActivity {
         if(onePlayerGame){
             skillSpinner.setVisibility(View.VISIBLE);
             difficultyLabel.setVisibility(View.VISIBLE);
+            messageYouWillBe.setVisibility(View.VISIBLE);
             onePlayerButton.setChecked(true);
             toeGame.setNumOfPlayers(1);
         }
         else{
             skillSpinner.setVisibility(View.INVISIBLE);
             difficultyLabel.setVisibility(View.INVISIBLE);
+            messageYouWillBe.setVisibility(View.INVISIBLE);
             twoPlayerButton.setChecked(true);
             toeGame.setNumOfPlayers(2);
         }
@@ -102,7 +108,9 @@ public class MainActivity extends RoboActivity {
     public void setNumberOfPlayers(View view){
             setPlayers(R.id.gameplay_one_player == view.getId());
     }
-
+    public void coinToss(View view){
+        setWhoGoesFirst(coinTossHelper.coinToss());
+    }
 
 
 }

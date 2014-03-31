@@ -38,24 +38,53 @@
 
 
     <TextView
+        android:id="@+id/message_you_will_be"
+        android:text="@string/message_you_will_be"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/players_radio_group"
+        android:layout_marginTop="75dp" />
+
+    <TextView
         android:id="@+id/difficulty_label"
         android:text="@string/difficulty"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/players_radio_group"
+        android:layout_below="@+id/message_you_will_be"
         android:layout_marginTop="75dp" />
 
     <Spinner
         android:id="@+id/skill_spinner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/players_radio_group"
+        android:layout_below="@+id/message_you_will_be"
         android:layout_toRightOf="@+id/difficulty_label"
+        android:layout_alignBaseline="@+id/difficulty_label"
         android:layout_marginTop="58dp" />
 
 
+
+    <Button
+        android:id="@+id/toin_coss_button"
+        android:text="@string/label_coin_toss"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/skill_spinner"
+        android:onClick="coinToss"
+        />
+
+    <TextView
+        android:id="@+id/turn_display"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/toin_coss_button"
+        android:layout_alignBaseline="@+id/toin_coss_button"
+        android:layout_below="@+id/skill_spinner"
+        android:layout_marginTop="75dp" />
 
 
 </RelativeLayout>

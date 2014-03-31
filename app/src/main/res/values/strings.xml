@@ -7,6 +7,9 @@
     <string name="coin_toss">Coin Toss</string>
     <string name="number_1">1</string>
     <string name="number_2">2</string>
+    <string name="message_you_will_be">You: X Android: O</string>
+    <string name="label_coin_toss">Toss a Coin</string>
+    <string name="who_goes_first">%s goes first!</string>
 
     <string name="action_settings">Settings</string>
 
