@@ -1,9 +1,15 @@
 package com.earthblood.tictactoe.engine;
 
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
 
 import com.earthblood.tictactoe.Robolectric.RobolectricGradleTestRunner;
+import com.earthblood.tictactoe.contentprovider.GameContentProvider;
+import com.earthblood.tictactoe.helper.GameDatabaseHelper;
 import com.earthblood.tictactoe.helper.PreferenceHelper;
+import com.earthblood.tictactoe.strategy.ExplicitToeStrategy;
+import com.earthblood.tictactoe.strategy.ToeStrategy;
 import com.earthblood.tictactoe.util.GameSymbol;
 import com.earthblood.tictactoe.util.Skill;
 
@@ -11,6 +17,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.annotation.Config;
 
@@ -63,6 +70,31 @@ public class ToeGameTest {
         when(preferenceHelper.getPreference(eq(ToeGame.PREF_TURN), eq(GameSymbol.X.getId()))).thenReturn(GameSymbol.O.getId());
         GameSymbol turn = toeGame.getTurn();
         assertEquals(GameSymbol.O, turn);
+    }
+    @Test
+    public void shouldAdvanceTurn(){
+        toeGame.advanceTurn(GameSymbol.X);
+        verify(preferenceHelper).putPreference(eq(GameSymbol.O.getId()), eq(ToeGame.PREF_TURN), eq(Context.MODE_PRIVATE));
+    }
+    @Test
+    public void shouldChooseBoxAndAdvanceTurn(){
+        ContentResolver contentResolver = Mockito.mock(ContentResolver.class);
+
+        ToeStrategy strategy = new ExplicitToeStrategy(3, GameSymbol.O);
+        toeGame.chooseBox(contentResolver, strategy);
+
+        ContentValues expectedValues = new ContentValues();
+        expectedValues.put(GameDatabaseHelper.COLUMN_GAME_BOX_ID, strategy.getBoxId());
+        expectedValues.put(GameDatabaseHelper.COLUMN_GAME_SYMBOL_ID, strategy.getSymbol().getId());
+
+        verify(contentResolver).insert(eq(GameContentProvider.CONTENT_URI), eq(expectedValues));
+        verify(preferenceHelper).putPreference(eq(GameSymbol.X.getId()), eq(ToeGame.PREF_TURN), eq(Context.MODE_PRIVATE));
+    }
+    @Test
+    public void shouldResetGame(){
+        ContentResolver contentResolver = Mockito.mock(ContentResolver.class);
+        toeGame.reset(contentResolver);
+        verify(contentResolver).delete(GameContentProvider.CONTENT_URI, null, null);
     }
 
 

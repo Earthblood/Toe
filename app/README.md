@@ -2,13 +2,13 @@ TOE
 =================
 
 TOE is a one or two player tic tac toe game for Android
-with multiple skill levels for one player games.
+featuring multiple levels of difficulty in one player mode.
 
 TOE was designed using the following frameworks and concepts:
 
 *Frameworks:*
 
-* minSdkVersion="7" by using Android support library
+* Android support libraries to maintain minSdkVersion="7"
 * Gradle
 * RoboGuice
 * Robolectric
@@ -19,7 +19,8 @@ TOE was designed using the following frameworks and concepts:
 
 * Strategy
 * Loader
-* ContentProvider
+* GridLayout backed by Loader
+* ContentProvider backed by SQLite database
 * Enum initialization with local resources
 
 

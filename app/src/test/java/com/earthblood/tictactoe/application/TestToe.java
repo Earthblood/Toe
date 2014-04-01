@@ -15,7 +15,7 @@ import roboguice.RoboGuice;
  *         Copyright 2014.
  */
 @SuppressWarnings("UnusedDeclaration")
-public class TestToeApp extends Toe implements TestLifecycleApplication {
+public class TestToe extends Toe implements TestLifecycleApplication {
     @Override
     public void onCreate() {
         super.onCreate();
@@ -29,7 +29,7 @@ public class TestToeApp extends Toe implements TestLifecycleApplication {
 
     @Override
     public void prepareTest(Object test) {
-        TestToeApp application = (TestToeApp) Robolectric.application;
+        TestToe application = (TestToe) Robolectric.application;
 
         RoboGuice.setBaseApplicationInjector(application, RoboGuice.DEFAULT_STAGE, RoboGuice.newDefaultRoboModule(application), new TestToeRoboModule());
 

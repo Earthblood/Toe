@@ -1,5 +1,6 @@
 package com.earthblood.tictactoe.activity;
 
+import android.content.ContentResolver;
 import android.content.Context;
 import android.widget.Button;
 import android.widget.RadioButton;
@@ -24,6 +25,7 @@ import org.robolectric.annotation.Config;
 
 import static org.fest.assertions.api.ANDROID.assertThat;
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -40,13 +42,9 @@ public class MainActivityTest {
 
     MainActivity activity;
 
-    @Inject
-    Context context;
-
-    @Inject
-    ToeGame toeGame;
-    @Inject
-    CoinTossHelper coinTossHelper;
+    @Inject Context context;
+    @Inject ToeGame toeGame;
+    @Inject CoinTossHelper coinTossHelper;
 
     @Before
     public void setup() {
@@ -67,8 +65,10 @@ public class MainActivityTest {
         Spinner spinner = (Spinner) activity.findViewById(R.id.skill_spinner);
         assertThat(spinner).isNotNull();
     }
-
-
+    @Test
+    public void shouldResetGameOnResume(){
+        verify(toeGame).reset(any(ContentResolver.class));
+    }
     @Test
     public void shouldSelectCorrectSkillLevelFromSkillSpinner(){
         Spinner spinner = (Spinner) activity.skillSpinner;

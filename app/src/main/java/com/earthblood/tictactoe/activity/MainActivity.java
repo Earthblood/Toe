@@ -50,6 +50,7 @@ public class MainActivity extends RoboActivity {
     @Override
     protected void onResume(){
         super.onResume();
+        toeGame.reset(getContentResolver());
         initializeSkill();
         initializeNumberOfPlayers();
         setWhoGoesFirst(toeGame.getTurn());

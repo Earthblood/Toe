@@ -1,8 +1,13 @@
 package com.earthblood.tictactoe.engine;
 
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
 
+import com.earthblood.tictactoe.contentprovider.GameContentProvider;
+import com.earthblood.tictactoe.helper.GameDatabaseHelper;
 import com.earthblood.tictactoe.helper.PreferenceHelper;
+import com.earthblood.tictactoe.strategy.ToeStrategy;
 import com.earthblood.tictactoe.util.GameSymbol;
 import com.earthblood.tictactoe.util.Skill;
 import com.google.inject.Inject;
@@ -42,5 +47,20 @@ public class ToeGame {
     }
     public GameSymbol getTurn(){
         return GameSymbol.byId(preferenceHelper.getPreference(PREF_TURN, GameSymbol.X.getId()));
+    }
+    public void advanceTurn(GameSymbol gameSymbol) {
+        preferenceHelper.putPreference(gameSymbol == GameSymbol.X ? GameSymbol.O.getId() : GameSymbol.X.getId() , PREF_TURN, Context.MODE_PRIVATE);
+    }
+
+    public void chooseBox(ContentResolver contentResolver, ToeStrategy strategy) {
+        ContentValues values = new ContentValues();
+        values.put(GameDatabaseHelper.COLUMN_GAME_BOX_ID, strategy.getBoxId());
+        values.put(GameDatabaseHelper.COLUMN_GAME_SYMBOL_ID,strategy.getSymbol().getId());
+        contentResolver.insert(GameContentProvider.CONTENT_URI, values);
+        advanceTurn(strategy.getSymbol());
+    }
+
+    public void reset(ContentResolver contentResolver) {
+        contentResolver.delete(GameContentProvider.CONTENT_URI, null, null);
     }
 }
