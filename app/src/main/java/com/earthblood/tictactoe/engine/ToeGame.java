@@ -24,15 +24,10 @@ public class ToeGame {
     public static final String PREF_TURN = "PREF_TURN";
 
     private PreferenceHelper preferenceHelper;
-    private ToeGameListener toeGameListener;
 
     @Inject
     public ToeGame(PreferenceHelper preferenceHelper){
         this.preferenceHelper = preferenceHelper;
-    }
-
-    public void setToeGameListener(ToeGameListener listener){
-        this.toeGameListener = listener;
     }
 
     public void setSkill(Skill skill){
@@ -64,8 +59,6 @@ public class ToeGame {
         values.put(GameDatabaseHelper.COLUMN_GAME_SYMBOL_ID,strategy.getSymbol().getId());
         contentResolver.insert(GameContentProvider.CONTENT_URI, values);
         advanceTurn(strategy.getSymbol());
-
-        toeGameListener.onBoxChosen();
     }
 
     public void reset(ContentResolver contentResolver) {

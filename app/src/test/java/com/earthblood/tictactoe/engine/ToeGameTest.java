@@ -38,8 +38,7 @@ public class ToeGameTest {
 
     @Mock
     PreferenceHelper preferenceHelper;
-    @Mock
-    ToeGameListener toeGameListener;
+
     @Mock
     ContentResolver contentResolver;
 
@@ -48,7 +47,6 @@ public class ToeGameTest {
     public void setup(){
         MockitoAnnotations.initMocks(this);
         toeGame = new ToeGame(preferenceHelper);
-        toeGame.setToeGameListener(toeGameListener);
     }
     @Test
     public void shouldSetSkill(){
@@ -89,11 +87,6 @@ public class ToeGameTest {
     public void shouldAdvanceTurn(){
         simulateChooseBoxForO();
         verify(preferenceHelper).putPreference(eq(GameSymbol.X.getId()), eq(ToeGame.PREF_TURN), eq(Context.MODE_PRIVATE));
-    }
-    @Test
-    public void shouldNotifyListener(){
-        simulateChooseBoxForO();
-        verify(toeGameListener).onBoxChosen();
     }
     @Test
     public void shouldResetGame(){
