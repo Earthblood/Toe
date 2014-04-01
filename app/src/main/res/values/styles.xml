@@ -17,4 +17,20 @@
         <item name="android:background">@drawable/custom_btn_toe</item>
         <item name="android:padding">10dip</item>
     </style>
+
+    <style name="statusTextLabel" parent="@android:style/TextAppearance.Medium">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/LimeGreen</item>
+        <item name="android:typeface">monospace</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:layout_margin">10sp</item>
+    </style>
+
+    <style name="statusTextBig" parent="@style/statusTextLabel">
+        <item name="android:textSize">30sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/WhiteSmoke</item>
+    </style>
+
 </resources>

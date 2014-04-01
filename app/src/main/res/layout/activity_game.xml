@@ -13,11 +13,23 @@
                 tools:context="com.earthblood.tictactoe.activity.GameActivity">
 
 
+    <TextView
+        android:id="@+id/message_turn_indicator"
+        android:text="@string/message_turn_indicator"
+        style="@style/statusTextLabel" />
+
+    <TextView
+        android:id="@+id/message_turn_indicator_value"
+        android:layout_toRightOf="@+id/message_turn_indicator"
+        android:layout_alignBaseline="@+id/message_turn_indicator"
+        style="@style/statusTextBig" />
+
     <android.support.v7.widget.GridLayout
                android:id="@+id/game_grid_layout"
                android:layout_width="fill_parent"
                android:layout_height="fill_parent"
                android:gravity="center"
+               android:layout_below="@+id/message_turn_indicator"
                grid:rowCount="3"
                grid:columnCount="3"
                grid:alignmentMode="alignBounds"

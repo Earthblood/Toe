@@ -38,14 +38,18 @@ public class ToeGameTest {
 
     @Mock
     PreferenceHelper preferenceHelper;
+    @Mock
+    ToeGameListener toeGameListener;
+    @Mock
+    ContentResolver contentResolver;
 
 
     @Before
     public void setup(){
         MockitoAnnotations.initMocks(this);
         toeGame = new ToeGame(preferenceHelper);
+        toeGame.setToeGameListener(toeGameListener);
     }
-
     @Test
     public void shouldSetSkill(){
         toeGame.setSkill(Skill.HARD);
@@ -72,29 +76,37 @@ public class ToeGameTest {
         assertEquals(GameSymbol.O, turn);
     }
     @Test
-    public void shouldAdvanceTurn(){
-        toeGame.advanceTurn(GameSymbol.X);
-        verify(preferenceHelper).putPreference(eq(GameSymbol.O.getId()), eq(ToeGame.PREF_TURN), eq(Context.MODE_PRIVATE));
-    }
-    @Test
-    public void shouldChooseBoxAndAdvanceTurn(){
-        ContentResolver contentResolver = Mockito.mock(ContentResolver.class);
-
-        ToeStrategy strategy = new ExplicitToeStrategy(3, GameSymbol.O);
-        toeGame.chooseBox(contentResolver, strategy);
+    public void shouldChooseBox(){
+        ToeStrategy strategy = simulateChooseBoxForO();
 
         ContentValues expectedValues = new ContentValues();
         expectedValues.put(GameDatabaseHelper.COLUMN_GAME_BOX_ID, strategy.getBoxId());
         expectedValues.put(GameDatabaseHelper.COLUMN_GAME_SYMBOL_ID, strategy.getSymbol().getId());
 
         verify(contentResolver).insert(eq(GameContentProvider.CONTENT_URI), eq(expectedValues));
+    }
+    @Test
+    public void shouldAdvanceTurn(){
+        simulateChooseBoxForO();
         verify(preferenceHelper).putPreference(eq(GameSymbol.X.getId()), eq(ToeGame.PREF_TURN), eq(Context.MODE_PRIVATE));
+    }
+    @Test
+    public void shouldNotifyListener(){
+        simulateChooseBoxForO();
+        verify(toeGameListener).onBoxChosen();
     }
     @Test
     public void shouldResetGame(){
         ContentResolver contentResolver = Mockito.mock(ContentResolver.class);
         toeGame.reset(contentResolver);
         verify(contentResolver).delete(GameContentProvider.CONTENT_URI, null, null);
+    }
+
+
+    private ToeStrategy simulateChooseBoxForO() {
+        ToeStrategy strategy = new ExplicitToeStrategy(3, GameSymbol.O);
+        toeGame.chooseBox(contentResolver, strategy);
+        return strategy;
     }
 
 

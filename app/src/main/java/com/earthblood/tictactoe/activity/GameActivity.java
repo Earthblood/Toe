@@ -9,10 +9,12 @@ import android.support.v4.content.Loader;
 import android.support.v7.widget.GridLayout;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.earthblood.tictactoe.R;
 import com.earthblood.tictactoe.contentprovider.GameContentProvider;
 import com.earthblood.tictactoe.engine.ToeGame;
+import com.earthblood.tictactoe.engine.ToeGameListener;
 import com.earthblood.tictactoe.helper.GameDatabaseHelper;
 import com.earthblood.tictactoe.strategy.ExplicitToeStrategy;
 import com.earthblood.tictactoe.strategy.ToeStrategy;
@@ -29,11 +31,12 @@ import roboguice.inject.InjectView;
  */
 
 
-public class GameActivity extends RoboFragmentActivity implements LoaderManager.LoaderCallbacks<Cursor> {
+public class GameActivity extends RoboFragmentActivity implements LoaderManager.LoaderCallbacks<Cursor>, ToeGameListener {
 
     public static final String SORT_DIRECTION = " ASC";
 
-    @InjectView(R.id.game_grid_layout) GridLayout gridLayout;
+    @InjectView(R.id.game_grid_layout)             GridLayout gridLayout;
+    @InjectView(R.id.message_turn_indicator_value) TextView messageTurnIndicatorValue;
 
     @Inject ToeGame toeGame;
 
@@ -48,6 +51,11 @@ public class GameActivity extends RoboFragmentActivity implements LoaderManager.
     @Override
     protected void onResume() {
         super.onResume();
+        toeGame.setToeGameListener(this);
+        refreshUI();
+    }
+    private void refreshUI() {
+        messageTurnIndicatorValue.setText(toeGame.getTurn().getValue());
     }
 
     /**
@@ -60,6 +68,22 @@ public class GameActivity extends RoboFragmentActivity implements LoaderManager.
         ToeStrategy strategy = new ExplicitToeStrategy(boxId, toeGame.getTurn());
         toeGame.chooseBox(getContentResolver(), strategy);
     }
+
+    /**
+     * ToeGame callbacks
+     */
+    public void onBoxChosen(){
+
+        //TODO: has game been won or is it over?
+
+        //TODO: if one player game, pause and then generate computer's move
+
+        //TODO: update the UI to display the current turn
+        refreshUI();
+
+
+    }
+
 
 
     /**
