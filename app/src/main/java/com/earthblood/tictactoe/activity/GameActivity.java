@@ -79,6 +79,7 @@ public class GameActivity extends RoboFragmentActivity implements LoaderManager.
             int boxId = data.getInt(1);
             Button button = (Button) gridLayout.findViewById(GameBox.byLayoutId(boxId).getLayoutBoxId());
             button.setText(GameSymbol.byId(data.getInt(2)).getValue());
+            button.setEnabled(false);
             data.moveToNext();
         }
     }
