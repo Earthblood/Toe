@@ -86,5 +86,15 @@
         android:layout_below="@+id/skill_spinner"
         android:layout_marginTop="75dp" />
 
+    <Button
+        android:id="@+id/button_new_game"
+        android:text="@string/button_start_game"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="20dp"
+        android:onClick="newGame" />
+
 
 </RelativeLayout>

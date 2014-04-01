@@ -15,7 +15,7 @@ import roboguice.RoboGuice;
  *         Copyright 2014.
  */
 @SuppressWarnings("UnusedDeclaration")
-public class TestToeApp extends ToeApp implements TestLifecycleApplication {
+public class TestToeApp extends Toe implements TestLifecycleApplication {
     @Override
     public void onCreate() {
         super.onCreate();

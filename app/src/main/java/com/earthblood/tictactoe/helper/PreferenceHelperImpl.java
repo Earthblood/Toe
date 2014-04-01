@@ -4,10 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.earthblood.tictactoe.application.ToeApp;
-import com.earthblood.tictactoe.util.Skill;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 
 /**
  * @author John Piser developer@earthblood.com

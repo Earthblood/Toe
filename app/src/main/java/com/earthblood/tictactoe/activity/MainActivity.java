@@ -1,5 +1,6 @@
 package com.earthblood.tictactoe.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -110,6 +111,10 @@ public class MainActivity extends RoboActivity {
     }
     public void coinToss(View view){
         setWhoGoesFirst(coinTossHelper.coinToss());
+    }
+    public void newGame(View view){
+        Intent i = new Intent(this, GameActivity.class);
+        startActivity(i);
     }
 
 

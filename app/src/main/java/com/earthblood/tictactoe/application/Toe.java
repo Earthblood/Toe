@@ -12,7 +12,9 @@ import roboguice.RoboGuice;
  *         Copyright 2014.
  */
 
-public class ToeApp extends Application {
+public class Toe extends Application {
+
+    public static final String TAG = "EARTHBLOOD_TOE";
 
     private static Context context;
 

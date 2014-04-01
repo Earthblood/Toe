@@ -1,7 +1,7 @@
 package com.earthblood.tictactoe.util;
 
 
-import com.earthblood.tictactoe.application.ToeApp;
+import com.earthblood.tictactoe.application.Toe;
 import com.earthblood.tictactoe.R;
 
 /**
@@ -28,7 +28,7 @@ public enum Skill {
 
     @Override
     public String toString() {
-        return ToeApp.getResourceString(resourceId);
+        return Toe.getResourceString(resourceId);
     }
 
     public static Skill byId(int id){
