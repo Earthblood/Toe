@@ -23,4 +23,6 @@ TOE was designed using the following frameworks and concepts:
 * ContentProvider backed by SQLite database
 * Enum initialization with local resources
 
+*TOE was designed and optimized on a classic Nexus One running CyanogenMod 7.2*
+
 

@@ -47,7 +47,6 @@ public class GameActivity extends RoboFragmentActivity implements LoaderManager.
 
     @InjectView(R.id.game_grid_layout)             GridLayout gridLayout;
     @InjectView(R.id.message_turn_indicator_value) TextView messageTurnIndicatorValue;
-    @InjectView(R.id.message_turn_indicator)       TextView getMessageTurnIndicator;
     @InjectView(R.id.new_game_button)              Button newGameButton;
 
     @Inject ToeGame toeGame;
@@ -94,6 +93,7 @@ public class GameActivity extends RoboFragmentActivity implements LoaderManager.
     }
 
     private void startTurn(final int[] selectedXBoxIds, final int[] selectedOBoxIds) {
+        Log.d(Toe.TAG,"INSIDE START TURN ------");
         if(toeGame.isAndroidTurn()){
             disableAllBoxes();
 
@@ -102,6 +102,7 @@ public class GameActivity extends RoboFragmentActivity implements LoaderManager.
             final Runnable r = new Runnable() {
                 public void run() {
                     toeGame.generateAndroidTurn(getContentResolver(), selectedXBoxIds, selectedOBoxIds);
+                    hapticFeedbackHelper.vibrate(HapticFeedbackHelper.VIBE_PATTERN_SHORT, HapticFeedbackHelper.VIBE_PATTERN_NO_REPEAT);
                     enableOpenBoxes(selectedXBoxIds, selectedOBoxIds);
                 }
             };
@@ -121,7 +122,7 @@ public class GameActivity extends RoboFragmentActivity implements LoaderManager.
         refreshUI(allBoxesFilled, gameWinPattern, winningSymbol, selectedXBoxIds, selectedOBoxIds);
     }
 
-    protected void refreshUI(boolean allBoxesFilled, GameWinPattern gameWinPattern, GameSymbol winningSymbol, int[] selectedXBoxIds, int[] selectedOBoxIds) {
+    protected void refreshUI(boolean gameOverNoWinner, GameWinPattern gameWinPattern, GameSymbol winningSymbol, int[] selectedXBoxIds, int[] selectedOBoxIds) {
 
         if(gameWinPattern != null){
             //We Have a Winner
@@ -130,8 +131,7 @@ public class GameActivity extends RoboFragmentActivity implements LoaderManager.
             highlightWinningPattern(gameWinPattern);
             messageTurnIndicatorValue.setText(getString(R.string.game_message_wins, winningSymbol.getValue()));
         }
-        else if(allBoxesFilled){
-            //Game Over: No winner
+        else if(gameOverNoWinner){
             messageTurnIndicatorValue.setText(getString(R.string.game_message_draw));
         }
         else{
@@ -170,6 +170,8 @@ public class GameActivity extends RoboFragmentActivity implements LoaderManager.
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
 
+        Log.d(Toe.TAG,"Inside onLoadFinished");
+
         int[] XIds = new int[9];
         int countX = 0;
         int[] OIds = new int[9];
@@ -193,10 +195,9 @@ public class GameActivity extends RoboFragmentActivity implements LoaderManager.
             button.setEnabled(false);
             data.moveToNext();
         }
-        Log.d(Toe.TAG, "Inside onLoadFinished about to call EndTurn. XIds: " + XIds.length);
-        Log.d(Toe.TAG, "Inside onLoadFinished about to call EndTurn. OIds: " + OIds.length);
-        Log.d(Toe.TAG, "Inside onLoadFinished about to call EndTurn. data.getCount(): " + data.getCount());
-        endTurn(XIds, OIds, data.getCount());
+        if(toeGame.inProgress()){
+            endTurn(XIds, OIds, data.getCount());
+        }
     }
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {

@@ -88,10 +88,15 @@ public class GameActivityTest {
     }
 
     @Test
-    public void shouldDisplayCurrentTurn(){
+    public void shouldDisplayCurrentTurnWhileGameInProgress(){
+        int[] XIds = new int[]{1,2};
+        int[] OIds = new int[]{3,6};
+        activity.refreshUI(false, null, GameSymbol.O, XIds, OIds);
         Assert.assertEquals(GameSymbol.X.getValue(), activity.messageTurnIndicatorValue.getText());
+
         when(toeGame.getTurn()).thenReturn(GameSymbol.O);
         activity = Robolectric.buildActivity(GameActivity.class).create().start().resume().get();
+        activity.refreshUI(false, null, GameSymbol.O, XIds, OIds);
         Assert.assertEquals(GameSymbol.O.getValue(), activity.messageTurnIndicatorValue.getText());
     }
 

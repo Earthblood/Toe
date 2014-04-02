@@ -22,6 +22,9 @@ public class ToeGame {
     public static final String PREF_SKILL_ID = "PREF_SKILL_ID";
     public static final String PREF_NUMBER_OF_PLAYERS = "PREF_NUMBER_OF_PLAYERS";
     public static final String PREF_TURN = "PREF_TURN";
+    public static final String PREF_GAME_PROGRESS = "PREF_GAME_PROGRESS";
+    public static final int GAME_OVER = 0;
+    public static final int GAME_IN_PROGRESS = 1;
 
     private PreferenceHelper preferenceHelper;
 
@@ -48,6 +51,15 @@ public class ToeGame {
     public GameSymbol getTurn(){
         return GameSymbol.byId(preferenceHelper.getPreference(PREF_TURN, GameSymbol.X.getId()));
     }
+    public boolean inProgress(){
+        return preferenceHelper.getPreference(PREF_GAME_PROGRESS, GAME_OVER) == GAME_IN_PROGRESS;
+    }
+    public void setGameOver(){
+        preferenceHelper.putPreference(GAME_OVER, PREF_GAME_PROGRESS, Context.MODE_PRIVATE);
+    }
+    public void setGameInProgess(){
+        preferenceHelper.putPreference(GAME_IN_PROGRESS, PREF_GAME_PROGRESS, Context.MODE_PRIVATE);
+    }
     public void advanceTurn(GameSymbol gameSymbol) {
         preferenceHelper.putPreference(gameSymbol == GameSymbol.X ? GameSymbol.O.getId() : GameSymbol.X.getId() , PREF_TURN, Context.MODE_PRIVATE);
     }
@@ -62,6 +74,7 @@ public class ToeGame {
     }
 
     public void reset(ContentResolver contentResolver) {
+        setGameOver();
         contentResolver.delete(GameContentProvider.CONTENT_URI, null, null);
     }
 

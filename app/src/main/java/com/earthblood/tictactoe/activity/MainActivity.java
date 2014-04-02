@@ -2,6 +2,7 @@ package com.earthblood.tictactoe.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -11,6 +12,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.earthblood.tictactoe.R;
+import com.earthblood.tictactoe.application.Toe;
 import com.earthblood.tictactoe.engine.ToeGame;
 import com.earthblood.tictactoe.helper.CoinTossHelper;
 import com.earthblood.tictactoe.helper.HapticFeedbackHelper;
@@ -56,6 +58,7 @@ public class MainActivity extends RoboActivity {
     @Override
     protected void onResume(){
         super.onResume();
+        Log.d(Toe.TAG, "Inside MainActivity onResume... about to reset the game ....");
         toeGame.reset(getContentResolver());
         initializeSkill();
         initializeNumberOfPlayers();
@@ -118,6 +121,7 @@ public class MainActivity extends RoboActivity {
         setWhoGoesFirst(coinTossHelper.coinToss());
     }
     public void newGame(View view){
+        toeGame.setGameInProgess();
         Intent i = new Intent(this, GameActivity.class);
         startActivity(i);
         finish();
