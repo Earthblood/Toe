@@ -8,12 +8,14 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.widget.GridLayout;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.earthblood.tictactoe.R;
+import com.earthblood.tictactoe.application.Toe;
 import com.earthblood.tictactoe.contentprovider.GameContentProvider;
 import com.earthblood.tictactoe.engine.ToeGame;
 import com.earthblood.tictactoe.helper.GameDatabaseHelper;
@@ -40,6 +42,7 @@ import roboguice.inject.InjectView;
 public class GameActivity extends RoboFragmentActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
     public static final String SORT_DIRECTION = " ASC";
+    public static final int TOTAL_NUMBER_OF_BOXES = 9;
 
 
     @InjectView(R.id.game_grid_layout)             GridLayout gridLayout;
@@ -98,8 +101,7 @@ public class GameActivity extends RoboFragmentActivity implements LoaderManager.
             Toast.makeText(this, R.string.computer_thinking, Toast.LENGTH_SHORT).show();
             final Runnable r = new Runnable() {
                 public void run() {
-                    //TODO: Computer choose box
-
+                    toeGame.generateAndroidTurn(getContentResolver(), selectedXBoxIds, selectedOBoxIds);
                     enableOpenBoxes(selectedXBoxIds, selectedOBoxIds);
                 }
             };
@@ -110,7 +112,7 @@ public class GameActivity extends RoboFragmentActivity implements LoaderManager.
     private void endTurn(int[] selectedXBoxIds, int[] selectedOBoxIds, int totalBoxesSelected) {
 
         GameSymbol winningSymbol = GameSymbol.X;
-        boolean allBoxesFilled = totalBoxesSelected == 9;
+        boolean allBoxesFilled = totalBoxesSelected == TOTAL_NUMBER_OF_BOXES;
         GameWinPattern gameWinPattern = GameWinPattern.checkForWin(selectedXBoxIds);
         if(gameWinPattern == null){
             gameWinPattern = GameWinPattern.checkForWin(selectedOBoxIds);
@@ -191,6 +193,9 @@ public class GameActivity extends RoboFragmentActivity implements LoaderManager.
             button.setEnabled(false);
             data.moveToNext();
         }
+        Log.d(Toe.TAG, "Inside onLoadFinished about to call EndTurn. XIds: " + XIds.length);
+        Log.d(Toe.TAG, "Inside onLoadFinished about to call EndTurn. OIds: " + OIds.length);
+        Log.d(Toe.TAG, "Inside onLoadFinished about to call EndTurn. data.getCount(): " + data.getCount());
         endTurn(XIds, OIds, data.getCount());
     }
     @Override

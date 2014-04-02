@@ -1,8 +1,10 @@
 package com.earthblood.tictactoe.util;
 
 
-import com.earthblood.tictactoe.application.Toe;
 import com.earthblood.tictactoe.R;
+import com.earthblood.tictactoe.application.Toe;
+import com.earthblood.tictactoe.strategy.EasyToeStrategy;
+import com.earthblood.tictactoe.strategy.ToeStrategy;
 
 /**
  * @author John Piser developer@earthblood.com
@@ -36,6 +38,20 @@ public enum Skill {
             if(id == skill.id){
                 return skill;
             }
+        }
+        return null;
+    }
+
+    public ToeStrategy strategy(int[] selectedXBoxIds, int [] selectedOBoxIds, GameSymbol androidSymbol){
+        switch (this){
+            case EASY:
+                return new EasyToeStrategy(selectedXBoxIds, selectedOBoxIds, androidSymbol);
+            case NORMAL:
+                //TODO: Implement NormalToeStrategy
+                return new EasyToeStrategy(selectedXBoxIds, selectedOBoxIds, androidSymbol);
+            case HARD:
+                //TODO: Implement HardToeStrategy
+                return new EasyToeStrategy(selectedXBoxIds, selectedOBoxIds, androidSymbol);
         }
         return null;
     }

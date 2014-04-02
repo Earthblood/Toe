@@ -72,4 +72,9 @@ public class ToeGame {
     public boolean isAndroidTurn() {
         return isOnePlayerGame() && getTurn() == GameSymbol.O;
     }
+
+    public void generateAndroidTurn(ContentResolver contentResolver, int[] selectedXBoxIds, int[] selectedOBoxIds) {
+        ToeStrategy strategy = getSkill().strategy(selectedXBoxIds, selectedOBoxIds, GameSymbol.O);
+        chooseBox(contentResolver, strategy);
+    }
 }
