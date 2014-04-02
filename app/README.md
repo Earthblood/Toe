@@ -2,7 +2,7 @@ TOE
 =================
 
 TOE is a one or two player tic tac toe game for Android
-featuring multiple levels of difficulty in one player mode.
+featuring multiple skill levels when playing in one player mode.
 
 TOE was designed using the following frameworks and concepts:
 

@@ -23,10 +23,13 @@ public enum GameBox {
         this.layoutBoxId = layoutBoxId;
     }
 
-    public int getLayoutBoxId() {
+    public int layoutBoxId() {
         return layoutBoxId;
     }
 
+    public int boxPosition(){
+        return ordinal() +1;
+    }
     public static GameBox byLayoutId(int id) {
         for (GameBox gameBox : GameBox.values()) {
             if(gameBox.ordinal() +1 == id){

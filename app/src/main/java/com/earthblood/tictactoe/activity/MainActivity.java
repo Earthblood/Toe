@@ -120,6 +120,7 @@ public class MainActivity extends RoboActivity {
     public void newGame(View view){
         Intent i = new Intent(this, GameActivity.class);
         startActivity(i);
+        finish();
     }
 
 

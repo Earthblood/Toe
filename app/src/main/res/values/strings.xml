@@ -13,6 +13,8 @@
     <string name="button_start_game">Play</string>
     <string name="new_game">New Game</string>
     <string name="select_difficulty">Select Skill Level</string>
+    <string name="computer_thinking">Thinking</string>
+    <string name="done">Done </string>
 
     <string name="game_message_wins">%s WINS!</string>
     <string name="game_message_draw">DRAW!</string>

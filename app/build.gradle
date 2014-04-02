@@ -29,6 +29,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:+'
     compile 'com.android.support:support-v4:19.0.+'
     compile 'org.roboguice:roboguice:2.0'
+    compile 'org.apache.commons:commons-lang3:3.3.1@jar'
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'org.robolectric:robolectric:2.3-SNAPSHOT'
     testCompile 'com.squareup:fest-android:1.0.+'

@@ -11,6 +11,7 @@ import android.support.v7.widget.GridLayout;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.earthblood.tictactoe.R;
 import com.earthblood.tictactoe.contentprovider.GameContentProvider;
@@ -23,6 +24,8 @@ import com.earthblood.tictactoe.util.GameBox;
 import com.earthblood.tictactoe.util.GameSymbol;
 import com.earthblood.tictactoe.util.GameWinPattern;
 import com.google.inject.Inject;
+
+import org.apache.commons.lang3.ArrayUtils;
 
 import roboguice.activity.RoboFragmentActivity;
 import roboguice.inject.ContentView;
@@ -55,16 +58,15 @@ public class GameActivity extends RoboFragmentActivity implements LoaderManager.
         getSupportLoaderManager().initLoader(0, null, this);
     }
 
-
     private void initializeButtonFeedback(){
         for (GameBox gameBox : GameBox.values()) {
-            Button button = (Button)gridLayout.findViewById(gameBox.getLayoutBoxId());
+            Button button = (Button)gridLayout.findViewById(gameBox.layoutBoxId());
             hapticFeedbackHelper.addFeedbackToButton(button, HapticFeedbackHelper.VIBE_PATTERN_SHORT,HapticFeedbackHelper.VIBE_PATTERN_NO_REPEAT);
         }
         hapticFeedbackHelper.addFeedbackToButton(newGameButton, HapticFeedbackHelper.VIBE_PATTERN_SHORT, HapticFeedbackHelper.VIBE_PATTERN_NO_REPEAT);
     }
 
-    private void refreshUI(boolean allBoxesFilled, GameWinPattern gameWinPattern, GameSymbol winningSymbol) {
+    private void refreshUI(boolean allBoxesFilled, GameWinPattern gameWinPattern, GameSymbol winningSymbol, int[] selectedXBoxIds, int[] selectedOBoxIds) {
 
         if(gameWinPattern != null){
             //We Have a Winner
@@ -80,33 +82,61 @@ public class GameActivity extends RoboFragmentActivity implements LoaderManager.
         else{
             //Next Turn
             messageTurnIndicatorValue.setText(toeGame.getTurn().getValue());
+            startTurn(selectedXBoxIds, selectedOBoxIds);
         }
-    }
-
-    private void checkGameStatus(int[] selectedXBoxIds, int[] selectedOBoxIds, int totalBoxesSelected) {
-
-        GameSymbol gameSymbol = GameSymbol.X;
-        boolean allBoxesFilled = totalBoxesSelected == 9;
-        GameWinPattern gameWinPattern = GameWinPattern.checkForWin(selectedXBoxIds);
-        if(gameWinPattern == null){
-            gameWinPattern = GameWinPattern.checkForWin(selectedOBoxIds);
-            gameSymbol = GameSymbol.O;
-        }
-        refreshUI(allBoxesFilled, gameWinPattern, gameSymbol);
     }
 
     private void highlightWinningPattern(GameWinPattern gameWinPattern) {
         for (int boxPosition : gameWinPattern.getBoxIds()) {
-            Button button = (Button)gridLayout.findViewById(GameBox.byBoxPosition(boxPosition).getLayoutBoxId());
+            Button button = (Button)gridLayout.findViewById(GameBox.byBoxPosition(boxPosition).layoutBoxId());
             button.setBackgroundResource(toeGame.getNumOfPlayers() == 1 ? R.drawable.custom_btn_seagull : R.drawable.custom_btn_orange);
         }
     }
 
     private void disableAllBoxes(){
         for (GameBox gameBox : GameBox.values()) {
-            Button b = (Button)gridLayout.findViewById(gameBox.getLayoutBoxId());
+            Button b = (Button)gridLayout.findViewById(gameBox.layoutBoxId());
             b.setEnabled(false);
         }
+    }
+
+    private void enableOpenBoxes(int[] selectedXBoxIds, int[] selectedOBoxIds) {
+        int[] selectedBoxes = ArrayUtils.addAll(selectedXBoxIds, selectedOBoxIds);
+        for (GameBox gameBox : GameBox.values()) {
+            if(! ArrayUtils.contains(selectedBoxes, gameBox.boxPosition())){
+                Button b = (Button)gridLayout.findViewById(gameBox.layoutBoxId());
+                b.setEnabled(true);
+            }
+        }
+    }
+
+    private void startTurn(final int[] selectedXBoxIds, final int[] selectedOBoxIds) {
+        if(toeGame.isAndroidTurn()){
+            disableAllBoxes();
+
+            //** SIMULATE AI
+            Toast.makeText(this, R.string.computer_thinking, Toast.LENGTH_SHORT).show();
+            final Runnable r = new Runnable() {
+                public void run() {
+                    //TODO: Computer choose box
+
+                    enableOpenBoxes(selectedXBoxIds, selectedOBoxIds);
+                }
+            };
+            gridLayout.postDelayed(r, 2000);
+        }
+    }
+
+    private void endTurn(int[] selectedXBoxIds, int[] selectedOBoxIds, int totalBoxesSelected) {
+
+        GameSymbol winningSymbol = GameSymbol.X;
+        boolean allBoxesFilled = totalBoxesSelected == 9;
+        GameWinPattern gameWinPattern = GameWinPattern.checkForWin(selectedXBoxIds);
+        if(gameWinPattern == null){
+            gameWinPattern = GameWinPattern.checkForWin(selectedOBoxIds);
+            winningSymbol = GameSymbol.O;
+        }
+        refreshUI(allBoxesFilled, gameWinPattern, winningSymbol, selectedXBoxIds, selectedOBoxIds);
     }
 
     /**
@@ -122,6 +152,7 @@ public class GameActivity extends RoboFragmentActivity implements LoaderManager.
     public void newGame(View view){
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
+        finish();
     }
 
     /**
@@ -155,12 +186,12 @@ public class GameActivity extends RoboFragmentActivity implements LoaderManager.
             else{
                 OIds[countO++] = boxId;
             }
-            Button button = (Button) gridLayout.findViewById(GameBox.byLayoutId(boxId).getLayoutBoxId());
+            Button button = (Button) gridLayout.findViewById(GameBox.byLayoutId(boxId).layoutBoxId());
             button.setText(GameSymbol.byId(gameSymbolId).getValue());
             button.setEnabled(false);
             data.moveToNext();
         }
-        checkGameStatus(XIds, OIds, data.getCount());
+        endTurn(XIds, OIds, data.getCount());
     }
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {

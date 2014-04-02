@@ -64,4 +64,12 @@ public class ToeGame {
     public void reset(ContentResolver contentResolver) {
         contentResolver.delete(GameContentProvider.CONTENT_URI, null, null);
     }
+
+    public boolean isOnePlayerGame() {
+        return getNumOfPlayers() == 1;
+    }
+
+    public boolean isAndroidTurn() {
+        return isOnePlayerGame() && getTurn() == GameSymbol.O;
+    }
 }
