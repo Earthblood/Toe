@@ -25,7 +25,8 @@
             android:authorities="com.earthblood.tictactoe"
             android:exported="false" >
         </provider>
-
     </application>
+
+    <uses-permission android:name="android.permission.VIBRATE" />
 
 </manifest>

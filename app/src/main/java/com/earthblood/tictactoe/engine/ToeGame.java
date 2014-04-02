@@ -23,6 +23,10 @@ public class ToeGame {
     public static final String PREF_NUMBER_OF_PLAYERS = "PREF_NUMBER_OF_PLAYERS";
     public static final String PREF_TURN = "PREF_TURN";
 
+    public static final int VIBE_PATTERN_SHORT = 50;
+    public static final int VIBE_PATTERN_LONG = 75;
+
+
     private PreferenceHelper preferenceHelper;
 
     @Inject

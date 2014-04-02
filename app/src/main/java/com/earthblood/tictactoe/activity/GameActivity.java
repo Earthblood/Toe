@@ -1,19 +1,19 @@
 package com.earthblood.tictactoe.activity;
 
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.widget.GridLayout;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.earthblood.tictactoe.R;
-import com.earthblood.tictactoe.application.Toe;
 import com.earthblood.tictactoe.contentprovider.GameContentProvider;
 import com.earthblood.tictactoe.engine.ToeGame;
 import com.earthblood.tictactoe.helper.GameDatabaseHelper;
@@ -23,8 +23,6 @@ import com.earthblood.tictactoe.util.GameBox;
 import com.earthblood.tictactoe.util.GameSymbol;
 import com.earthblood.tictactoe.util.GameWinPattern;
 import com.google.inject.Inject;
-
-import java.util.Arrays;
 
 import roboguice.activity.RoboFragmentActivity;
 import roboguice.inject.ContentView;
@@ -46,10 +44,13 @@ public class GameActivity extends RoboFragmentActivity implements LoaderManager.
 
     @Inject ToeGame toeGame;
 
+    Vibrator vibrator;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        vibrator = (Vibrator) this.getSystemService(VIBRATOR_SERVICE);
         getSupportLoaderManager().initLoader(0, null, this);
     }
 
@@ -58,10 +59,7 @@ public class GameActivity extends RoboFragmentActivity implements LoaderManager.
         if(gameWinPattern != null){
             //We Have a Winner
             disableAllBoxes();
-
-            //TODO: Highlight Winning Pattern
             highlightWinningPattern(gameWinPattern);
-
             messageTurnIndicatorValue.setText(getString(R.string.game_message_wins, winningSymbol.getValue()));
         }
         else if(allBoxesFilled){
@@ -92,11 +90,19 @@ public class GameActivity extends RoboFragmentActivity implements LoaderManager.
      * UI Interactions
      */
     public void chooseBox(View view){
+
+        vibrator.vibrate(ToeGame.VIBE_PATTERN_SHORT);
+
         String boxIdString = getResources().getResourceEntryName(view.getId());
         int boxId = Integer.parseInt(boxIdString.substring(boxIdString.length() - 1));
 
         ToeStrategy strategy = new ExplicitToeStrategy(boxId, toeGame.getTurn());
         toeGame.chooseBox(getContentResolver(), strategy);
+    }
+    public void newGame(View view){
+        vibrator.vibrate(ToeGame.VIBE_PATTERN_LONG);
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 
     /**
@@ -135,9 +141,6 @@ public class GameActivity extends RoboFragmentActivity implements LoaderManager.
             button.setEnabled(false);
             data.moveToNext();
         }
-
-        Log.d(Toe.TAG, "XIDS = " + Arrays.toString(XIds));
-        Log.d(Toe.TAG, "OIDS = " + Arrays.toString(OIds));
 
         GameSymbol gameSymbol = GameSymbol.X;
         boolean allBoxesFilled = data.getCount() == 9;

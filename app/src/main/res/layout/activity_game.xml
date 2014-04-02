@@ -26,9 +26,9 @@
 
     <android.support.v7.widget.GridLayout
                android:id="@+id/game_grid_layout"
-               android:layout_width="fill_parent"
-               android:layout_height="fill_parent"
-               android:gravity="center"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_centerInParent="true"
                android:layout_below="@+id/message_turn_indicator"
                grid:rowCount="3"
                grid:columnCount="3"
@@ -38,61 +38,73 @@
                grid:orientation="horizontal">
 
         <Button android:id="@+id/box_1"
-                  grid:layout_gravity="fill_horizontal"
+
                   style="@style/btnStyleToe"
                   android:layout_width="94dp"
                   android:layout_height="120dp"
                   android:onClick="chooseBox"/>
         <Button android:id="@+id/box_2"
-                  grid:layout_gravity="fill_horizontal"
+
                   style="@style/btnStyleToe"
                   android:layout_width="94dp"
                   android:layout_height="120dp"
                   android:onClick="chooseBox"/>
         <Button android:id="@+id/box_3"
-                  grid:layout_gravity="fill_horizontal"
+
                   style="@style/btnStyleToe"
                   android:layout_width="94dp"
                   android:layout_height="120dp"
                   android:onClick="chooseBox"/>
         <Button android:id="@+id/box_4"
-                  grid:layout_gravity="fill_horizontal"
+
                   style="@style/btnStyleToe"
                   android:layout_width="94dp"
                   android:layout_height="120dp"
                   android:onClick="chooseBox"/>
         <Button android:id="@+id/box_5"
-                  grid:layout_gravity="fill_horizontal"
+
                   style="@style/btnStyleToe"
                   android:layout_width="94dp"
                   android:layout_height="120dp"
                   android:onClick="chooseBox"/>
         <Button android:id="@+id/box_6"
-                  grid:layout_gravity="fill_horizontal"
+
                   style="@style/btnStyleToe"
                   android:layout_width="94dp"
                   android:layout_height="120dp"
                   android:onClick="chooseBox"/>
         <Button android:id="@+id/box_7"
-                  grid:layout_gravity="fill_horizontal"
+
                   style="@style/btnStyleToe"
                   android:layout_width="94dp"
                   android:layout_height="120dp"
                   android:onClick="chooseBox"/>
         <Button android:id="@+id/box_8"
-                  grid:layout_gravity="fill_horizontal"
+
                   style="@style/btnStyleToe"
                   android:layout_width="94dp"
                   android:layout_height="120dp"
                   android:onClick="chooseBox"/>
         <Button android:id="@+id/box_9"
-                  grid:layout_gravity="fill_horizontal"
+
                   style="@style/btnStyleToe"
                   android:layout_width="94dp"
                   android:layout_height="120dp"
                   android:onClick="chooseBox"/>
 
     </android.support.v7.widget.GridLayout>
+
+    <Button android:id="@+id/new_game_button"
+            style="@style/btnStyleGenoa"
+            android:text="@string/new_game"
+            android:layout_width="284dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/game_grid_layout"
+            android:layout_alignParentBottom="true"
+            android:layout_centerInParent="true"
+            android:layout_margin="10dp"
+            android:onClick="newGame"/>
+
 
 
 </RelativeLayout>

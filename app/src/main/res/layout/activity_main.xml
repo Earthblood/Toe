@@ -6,6 +6,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
+    android:background="@color/black"
     tools:context="com.earthblood.tictactoe.activity.MainActivity">
 
     <TextView
@@ -15,6 +16,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
+        style="@style/statusTextLabel"
          />
 
     <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
@@ -28,12 +30,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/number_1"
-            android:onClick="setNumberOfPlayers"/>
+            android:onClick="setNumberOfPlayers"
+            style="@style/statusTextLabel"/>
         <RadioButton android:id="@+id/gameplay_two_player"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/number_2"
-            android:onClick="setNumberOfPlayers"/>
+            android:onClick="setNumberOfPlayers"
+            style="@style/statusTextLabel"/>
     </RadioGroup>
 
 
@@ -42,38 +46,30 @@
         android:text="@string/message_you_will_be"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
+        android:layout_centerInParent="true"
         android:layout_below="@+id/players_radio_group"
-        android:layout_marginTop="75dp" />
-
-    <TextView
-        android:id="@+id/difficulty_label"
-        android:text="@string/difficulty"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/message_you_will_be"
-        android:layout_marginTop="75dp" />
+        android:layout_marginTop="75dp"
+        style="@style/statusTextLabel"/>
 
     <Spinner
         android:id="@+id/skill_spinner"
-        android:layout_width="wrap_content"
+        android:background="@drawable/custom_btn_toe"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/message_you_will_be"
-        android:layout_toRightOf="@+id/difficulty_label"
-        android:layout_alignBaseline="@+id/difficulty_label"
-        android:layout_marginTop="58dp" />
-
-
+        android:layout_margin="50dp"
+        android:prompt="@string/select_difficulty"
+        />
 
     <Button
         android:id="@+id/toin_coss_button"
         android:text="@string/label_coin_toss"
+        style="@style/btnStyleToe"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
+        android:layout_centerInParent="true"
         android:layout_below="@+id/skill_spinner"
+        android:textSize="20sp"
         android:onClick="coinToss"
         />
 
@@ -81,20 +77,22 @@
         android:id="@+id/turn_display"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/toin_coss_button"
-        android:layout_alignBaseline="@+id/toin_coss_button"
-        android:layout_below="@+id/skill_spinner"
-        android:layout_marginTop="75dp" />
+        android:layout_centerInParent="true"
+        android:layout_below="@+id/toin_coss_button"
+        android:layout_marginTop="10dp"
+        style="@style/statusTextLabel"/>
 
-    <Button
-        android:id="@+id/button_new_game"
-        android:text="@string/button_start_game"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_margin="20dp"
-        android:onClick="newGame" />
+
+    <Button android:id="@+id/button_new_game"
+            android:text="@string/button_start_game"
+            style="@style/btnStyleGenoa"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/game_grid_layout"
+            android:layout_alignParentBottom="true"
+            android:layout_centerInParent="true"
+            android:layout_margin="20dp"
+            android:onClick="newGame"/>
 
 
 </RelativeLayout>

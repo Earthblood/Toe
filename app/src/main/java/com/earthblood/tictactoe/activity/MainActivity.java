@@ -2,6 +2,7 @@ package com.earthblood.tictactoe.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -33,17 +34,18 @@ public class MainActivity extends RoboActivity {
     @InjectView(R.id.skill_spinner)          Spinner skillSpinner;
     @InjectView(R.id.gameplay_one_player)    RadioButton onePlayerButton;
     @InjectView(R.id.gameplay_two_player)    RadioButton twoPlayerButton;
-    @InjectView(R.id.difficulty_label)       TextView difficultyLabel;
     @InjectView(R.id.message_you_will_be)    TextView messageYouWillBe;
     @InjectView(R.id.turn_display)           TextView turnDisplay;
 
     @Inject ToeGame toeGame;
     @Inject CoinTossHelper coinTossHelper;
 
+    Vibrator vibrator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        vibrator = (Vibrator) this.getSystemService(VIBRATOR_SERVICE);
         setupSkill();
     }
 
@@ -65,14 +67,12 @@ public class MainActivity extends RoboActivity {
     private void setPlayers(boolean onePlayerGame){
         if(onePlayerGame){
             skillSpinner.setVisibility(View.VISIBLE);
-            difficultyLabel.setVisibility(View.VISIBLE);
             messageYouWillBe.setVisibility(View.VISIBLE);
             onePlayerButton.setChecked(true);
             toeGame.setNumOfPlayers(1);
         }
         else{
             skillSpinner.setVisibility(View.INVISIBLE);
-            difficultyLabel.setVisibility(View.INVISIBLE);
             messageYouWillBe.setVisibility(View.INVISIBLE);
             twoPlayerButton.setChecked(true);
             toeGame.setNumOfPlayers(2);
@@ -108,12 +108,15 @@ public class MainActivity extends RoboActivity {
      * User Interactions
      */
     public void setNumberOfPlayers(View view){
-            setPlayers(R.id.gameplay_one_player == view.getId());
+        vibrator.vibrate(ToeGame.VIBE_PATTERN_SHORT);
+        setPlayers(R.id.gameplay_one_player == view.getId());
     }
     public void coinToss(View view){
+        vibrator.vibrate(ToeGame.VIBE_PATTERN_SHORT);
         setWhoGoesFirst(coinTossHelper.coinToss());
     }
     public void newGame(View view){
+        vibrator.vibrate(ToeGame.VIBE_PATTERN_LONG);
         Intent i = new Intent(this, GameActivity.class);
         startActivity(i);
     }

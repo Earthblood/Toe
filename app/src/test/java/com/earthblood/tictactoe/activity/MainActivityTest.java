@@ -120,7 +120,7 @@ public class MainActivityTest {
         when(coinTossHelper.coinToss()).thenReturn(GameSymbol.X);
         Button button = Mockito.mock(Button.class);
         activity.coinToss(button);
-        assertEquals("X goes first!", activity.turnDisplay.getText());
+        assertEquals("X goes first", activity.turnDisplay.getText());
     }
     @Test
     public void shouldSetTurnOnCoinTossO(){
@@ -134,7 +134,7 @@ public class MainActivityTest {
         when(coinTossHelper.coinToss()).thenReturn(GameSymbol.O);
         Button button = Mockito.mock(Button.class);
         activity.coinToss(button);
-        assertEquals("O goes first!", activity.turnDisplay.getText());
+        assertEquals("O goes first", activity.turnDisplay.getText());
     }
 
 }
