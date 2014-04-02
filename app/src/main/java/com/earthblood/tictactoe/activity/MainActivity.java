@@ -2,10 +2,10 @@ package com.earthblood.tictactoe.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Vibrator;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -13,8 +13,11 @@ import android.widget.TextView;
 import com.earthblood.tictactoe.R;
 import com.earthblood.tictactoe.engine.ToeGame;
 import com.earthblood.tictactoe.helper.CoinTossHelper;
+import com.earthblood.tictactoe.helper.HapticFeedbackHelper;
 import com.earthblood.tictactoe.util.GameSymbol;
 import com.earthblood.tictactoe.util.Skill;
+
+import java.util.Arrays;
 
 import javax.inject.Inject;
 
@@ -36,16 +39,17 @@ public class MainActivity extends RoboActivity {
     @InjectView(R.id.gameplay_two_player)    RadioButton twoPlayerButton;
     @InjectView(R.id.message_you_will_be)    TextView messageYouWillBe;
     @InjectView(R.id.turn_display)           TextView turnDisplay;
+    @InjectView(R.id.button_new_game)        Button buttonNewGame;
+    @InjectView(R.id.coin_toss_button)       Button coinTossButton;
 
     @Inject ToeGame toeGame;
     @Inject CoinTossHelper coinTossHelper;
-
-    Vibrator vibrator;
+    @Inject HapticFeedbackHelper hapticFeedbackHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        vibrator = (Vibrator) this.getSystemService(VIBRATOR_SERVICE);
+        hapticFeedbackHelper.addFeedbackToButtonList(Arrays.asList(buttonNewGame, coinTossButton, onePlayerButton, twoPlayerButton));
         setupSkill();
     }
 
@@ -62,7 +66,6 @@ public class MainActivity extends RoboActivity {
         toeGame.setTurn(turn);
         turnDisplay.setText(getString(R.string.who_goes_first, turn.getValue()));
     }
-
 
     private void setPlayers(boolean onePlayerGame){
         if(onePlayerGame){
@@ -84,6 +87,7 @@ public class MainActivity extends RoboActivity {
         skillSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                hapticFeedbackHelper.vibrate(HapticFeedbackHelper.VIBE_PATTERN_SHORT, HapticFeedbackHelper.VIBE_PATTERN_NO_REPEAT);
                 Skill skill = (Skill) parent.getItemAtPosition(position);
                 toeGame.setSkill(skill);
             }
@@ -108,15 +112,12 @@ public class MainActivity extends RoboActivity {
      * User Interactions
      */
     public void setNumberOfPlayers(View view){
-        vibrator.vibrate(ToeGame.VIBE_PATTERN_SHORT);
         setPlayers(R.id.gameplay_one_player == view.getId());
     }
     public void coinToss(View view){
-        vibrator.vibrate(ToeGame.VIBE_PATTERN_SHORT);
         setWhoGoesFirst(coinTossHelper.coinToss());
     }
     public void newGame(View view){
-        vibrator.vibrate(ToeGame.VIBE_PATTERN_LONG);
         Intent i = new Intent(this, GameActivity.class);
         startActivity(i);
     }

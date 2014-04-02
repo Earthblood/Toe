@@ -4,7 +4,6 @@ package com.earthblood.tictactoe.activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.os.Vibrator;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -17,6 +16,7 @@ import com.earthblood.tictactoe.R;
 import com.earthblood.tictactoe.contentprovider.GameContentProvider;
 import com.earthblood.tictactoe.engine.ToeGame;
 import com.earthblood.tictactoe.helper.GameDatabaseHelper;
+import com.earthblood.tictactoe.helper.HapticFeedbackHelper;
 import com.earthblood.tictactoe.strategy.ExplicitToeStrategy;
 import com.earthblood.tictactoe.strategy.ToeStrategy;
 import com.earthblood.tictactoe.util.GameBox;
@@ -42,24 +42,33 @@ public class GameActivity extends RoboFragmentActivity implements LoaderManager.
     @InjectView(R.id.game_grid_layout)             GridLayout gridLayout;
     @InjectView(R.id.message_turn_indicator_value) TextView messageTurnIndicatorValue;
     @InjectView(R.id.message_turn_indicator)       TextView getMessageTurnIndicator;
+    @InjectView(R.id.new_game_button)              Button newGameButton;
 
     @Inject ToeGame toeGame;
-
-    Vibrator vibrator;
+    @Inject HapticFeedbackHelper hapticFeedbackHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        vibrator = (Vibrator) this.getSystemService(VIBRATOR_SERVICE);
+        initializeButtonFeedback();
         getSupportLoaderManager().initLoader(0, null, this);
+    }
+
+
+    private void initializeButtonFeedback(){
+        for (GameBox gameBox : GameBox.values()) {
+            Button button = (Button)gridLayout.findViewById(gameBox.getLayoutBoxId());
+            hapticFeedbackHelper.addFeedbackToButton(button, HapticFeedbackHelper.VIBE_PATTERN_SHORT,HapticFeedbackHelper.VIBE_PATTERN_NO_REPEAT);
+        }
+        hapticFeedbackHelper.addFeedbackToButton(newGameButton, HapticFeedbackHelper.VIBE_PATTERN_SHORT, HapticFeedbackHelper.VIBE_PATTERN_NO_REPEAT);
     }
 
     private void refreshUI(boolean allBoxesFilled, GameWinPattern gameWinPattern, GameSymbol winningSymbol) {
 
         if(gameWinPattern != null){
             //We Have a Winner
-            vibrator.vibrate(ToeGame.VIBE_PATTERN_WIN, ToeGame.VIBE_PATTERN_NO_REPEAT);
+            hapticFeedbackHelper.vibrate(HapticFeedbackHelper.VIBE_PATTERN_WIN, HapticFeedbackHelper.VIBE_PATTERN_NO_REPEAT);
             disableAllBoxes();
             highlightWinningPattern(gameWinPattern);
             messageTurnIndicatorValue.setText(getString(R.string.game_message_wins, winningSymbol.getValue()));
@@ -72,6 +81,18 @@ public class GameActivity extends RoboFragmentActivity implements LoaderManager.
             //Next Turn
             messageTurnIndicatorValue.setText(toeGame.getTurn().getValue());
         }
+    }
+
+    private void checkGameStatus(int[] selectedXBoxIds, int[] selectedOBoxIds, int totalBoxesSelected) {
+
+        GameSymbol gameSymbol = GameSymbol.X;
+        boolean allBoxesFilled = totalBoxesSelected == 9;
+        GameWinPattern gameWinPattern = GameWinPattern.checkForWin(selectedXBoxIds);
+        if(gameWinPattern == null){
+            gameWinPattern = GameWinPattern.checkForWin(selectedOBoxIds);
+            gameSymbol = GameSymbol.O;
+        }
+        refreshUI(allBoxesFilled, gameWinPattern, gameSymbol);
     }
 
     private void highlightWinningPattern(GameWinPattern gameWinPattern) {
@@ -92,9 +113,6 @@ public class GameActivity extends RoboFragmentActivity implements LoaderManager.
      * UI Interactions
      */
     public void chooseBox(View view){
-
-        vibrator.vibrate(ToeGame.VIBE_PATTERN_SHORT);
-
         String boxIdString = getResources().getResourceEntryName(view.getId());
         int boxId = Integer.parseInt(boxIdString.substring(boxIdString.length() - 1));
 
@@ -102,7 +120,6 @@ public class GameActivity extends RoboFragmentActivity implements LoaderManager.
         toeGame.chooseBox(getContentResolver(), strategy);
     }
     public void newGame(View view){
-        vibrator.vibrate(ToeGame.VIBE_PATTERN_LONG);
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
@@ -143,15 +160,7 @@ public class GameActivity extends RoboFragmentActivity implements LoaderManager.
             button.setEnabled(false);
             data.moveToNext();
         }
-
-        GameSymbol gameSymbol = GameSymbol.X;
-        boolean allBoxesFilled = data.getCount() == 9;
-        GameWinPattern gameWinPattern = GameWinPattern.checkForWin(XIds);
-        if(gameWinPattern == null){
-            gameWinPattern = GameWinPattern.checkForWin(OIds);
-            gameSymbol = GameSymbol.O;
-        }
-        refreshUI(allBoxesFilled, gameWinPattern, gameSymbol);
+        checkGameStatus(XIds, OIds, data.getCount());
     }
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {

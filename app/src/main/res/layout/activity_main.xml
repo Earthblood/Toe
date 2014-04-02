@@ -62,7 +62,7 @@
         />
 
     <Button
-        android:id="@+id/toin_coss_button"
+        android:id="@+id/coin_toss_button"
         android:text="@string/label_coin_toss"
         style="@style/btnStyleToe"
         android:layout_width="wrap_content"
@@ -78,7 +78,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:layout_below="@+id/toin_coss_button"
+        android:layout_below="@+id/coin_toss_button"
         android:layout_marginTop="10dp"
         style="@style/statusTextLabel"/>
 
