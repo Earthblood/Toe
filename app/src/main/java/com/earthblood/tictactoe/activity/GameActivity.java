@@ -38,6 +38,7 @@ public class GameActivity extends RoboFragmentActivity implements LoaderManager.
 
     public static final String SORT_DIRECTION = " ASC";
 
+
     @InjectView(R.id.game_grid_layout)             GridLayout gridLayout;
     @InjectView(R.id.message_turn_indicator_value) TextView messageTurnIndicatorValue;
     @InjectView(R.id.message_turn_indicator)       TextView getMessageTurnIndicator;
@@ -58,6 +59,7 @@ public class GameActivity extends RoboFragmentActivity implements LoaderManager.
 
         if(gameWinPattern != null){
             //We Have a Winner
+            vibrator.vibrate(ToeGame.VIBE_PATTERN_WIN, ToeGame.VIBE_PATTERN_NO_REPEAT);
             disableAllBoxes();
             highlightWinningPattern(gameWinPattern);
             messageTurnIndicatorValue.setText(getString(R.string.game_message_wins, winningSymbol.getValue()));

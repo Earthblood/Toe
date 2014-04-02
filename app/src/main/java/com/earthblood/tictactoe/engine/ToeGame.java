@@ -25,6 +25,8 @@ public class ToeGame {
 
     public static final int VIBE_PATTERN_SHORT = 50;
     public static final int VIBE_PATTERN_LONG = 75;
+    public static final long[] VIBE_PATTERN_WIN = new long[]{0,200,50,200,50,200};
+    public static final int VIBE_PATTERN_NO_REPEAT = -1;
 
 
     private PreferenceHelper preferenceHelper;
