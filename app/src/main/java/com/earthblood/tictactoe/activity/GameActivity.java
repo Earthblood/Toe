@@ -66,26 +66,6 @@ public class GameActivity extends RoboFragmentActivity implements LoaderManager.
         hapticFeedbackHelper.addFeedbackToButton(newGameButton, HapticFeedbackHelper.VIBE_PATTERN_SHORT, HapticFeedbackHelper.VIBE_PATTERN_NO_REPEAT);
     }
 
-    private void refreshUI(boolean allBoxesFilled, GameWinPattern gameWinPattern, GameSymbol winningSymbol, int[] selectedXBoxIds, int[] selectedOBoxIds) {
-
-        if(gameWinPattern != null){
-            //We Have a Winner
-            hapticFeedbackHelper.vibrate(HapticFeedbackHelper.VIBE_PATTERN_WIN, HapticFeedbackHelper.VIBE_PATTERN_NO_REPEAT);
-            disableAllBoxes();
-            highlightWinningPattern(gameWinPattern);
-            messageTurnIndicatorValue.setText(getString(R.string.game_message_wins, winningSymbol.getValue()));
-        }
-        else if(allBoxesFilled){
-            //Game Over: No winner
-            messageTurnIndicatorValue.setText(getString(R.string.game_message_draw));
-        }
-        else{
-            //Next Turn
-            messageTurnIndicatorValue.setText(toeGame.getTurn().getValue());
-            startTurn(selectedXBoxIds, selectedOBoxIds);
-        }
-    }
-
     private void highlightWinningPattern(GameWinPattern gameWinPattern) {
         for (int boxPosition : gameWinPattern.getBoxIds()) {
             Button button = (Button)gridLayout.findViewById(GameBox.byBoxPosition(boxPosition).layoutBoxId());
@@ -137,6 +117,26 @@ public class GameActivity extends RoboFragmentActivity implements LoaderManager.
             winningSymbol = GameSymbol.O;
         }
         refreshUI(allBoxesFilled, gameWinPattern, winningSymbol, selectedXBoxIds, selectedOBoxIds);
+    }
+
+    protected void refreshUI(boolean allBoxesFilled, GameWinPattern gameWinPattern, GameSymbol winningSymbol, int[] selectedXBoxIds, int[] selectedOBoxIds) {
+
+        if(gameWinPattern != null){
+            //We Have a Winner
+            hapticFeedbackHelper.vibrate(HapticFeedbackHelper.VIBE_PATTERN_WIN, HapticFeedbackHelper.VIBE_PATTERN_NO_REPEAT);
+            disableAllBoxes();
+            highlightWinningPattern(gameWinPattern);
+            messageTurnIndicatorValue.setText(getString(R.string.game_message_wins, winningSymbol.getValue()));
+        }
+        else if(allBoxesFilled){
+            //Game Over: No winner
+            messageTurnIndicatorValue.setText(getString(R.string.game_message_draw));
+        }
+        else{
+            //Next Turn
+            messageTurnIndicatorValue.setText(toeGame.getTurn().getValue());
+            startTurn(selectedXBoxIds, selectedOBoxIds);
+        }
     }
 
     /**
