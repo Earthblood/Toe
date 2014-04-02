@@ -13,6 +13,9 @@
     <string name="who_goes_first">%s goes first!</string>
     <string name="button_start_game">Play!</string>
 
+    <string name="game_message_wins">%s WINS!</string>
+    <string name="game_message_draw">DRAW!</string>
+
     <string name="action_settings">Settings</string>
 
     <!-- Skill Level-->

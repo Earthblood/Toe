@@ -42,6 +42,7 @@ public class GameActivity extends RoboFragmentActivity implements LoaderManager.
 
     @InjectView(R.id.game_grid_layout)             GridLayout gridLayout;
     @InjectView(R.id.message_turn_indicator_value) TextView messageTurnIndicatorValue;
+    @InjectView(R.id.message_turn_indicator)       TextView getMessageTurnIndicator;
 
     @Inject ToeGame toeGame;
 
@@ -56,16 +57,34 @@ public class GameActivity extends RoboFragmentActivity implements LoaderManager.
 
         if(gameWinPattern != null){
             //We Have a Winner
-            //TODO: DISABLE ALL UNSELECTED BOXES
-            messageTurnIndicatorValue.setText(winningSymbol.getValue() + " WINS!");
+            disableAllBoxes();
+
+            //TODO: Highlight Winning Pattern
+            highlightWinningPattern(gameWinPattern);
+
+            messageTurnIndicatorValue.setText(getString(R.string.game_message_wins, winningSymbol.getValue()));
         }
         else if(allBoxesFilled){
             //Game Over: No winner
-            messageTurnIndicatorValue.setText("DRAW!");
+            messageTurnIndicatorValue.setText(getString(R.string.game_message_draw));
         }
         else{
             //Next Turn
             messageTurnIndicatorValue.setText(toeGame.getTurn().getValue());
+        }
+    }
+
+    private void highlightWinningPattern(GameWinPattern gameWinPattern) {
+        for (int boxPosition : gameWinPattern.getBoxIds()) {
+            Button button = (Button)gridLayout.findViewById(GameBox.byBoxPosition(boxPosition).getLayoutBoxId());
+            button.setBackgroundResource(toeGame.getNumOfPlayers() == 1 ? R.drawable.custom_btn_seagull : R.drawable.custom_btn_orange);
+        }
+    }
+
+    private void disableAllBoxes(){
+        for (GameBox gameBox : GameBox.values()) {
+            Button b = (Button)gridLayout.findViewById(gameBox.getLayoutBoxId());
+            b.setEnabled(false);
         }
     }
 

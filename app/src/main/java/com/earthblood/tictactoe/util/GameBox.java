@@ -35,4 +35,12 @@ public enum GameBox {
         }
         return null;
     }
+    public static GameBox byBoxPosition(int i){
+        for (GameBox gameBox : GameBox.values()) {
+            if(gameBox.ordinal() +1 == i){
+                return gameBox;
+            }
+        }
+        return null;
+    }
 }
