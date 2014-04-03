@@ -8,19 +8,17 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.widget.GridLayout;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.earthblood.tictactoe.R;
-import com.earthblood.tictactoe.application.Toe;
 import com.earthblood.tictactoe.contentprovider.GameContentProvider;
 import com.earthblood.tictactoe.engine.ToeGame;
 import com.earthblood.tictactoe.helper.GameDatabaseHelper;
 import com.earthblood.tictactoe.helper.HapticFeedbackHelper;
-import com.earthblood.tictactoe.strategy.ExplicitToeStrategy;
+import com.earthblood.tictactoe.strategy.ToeStrategyExplicit;
 import com.earthblood.tictactoe.strategy.ToeStrategy;
 import com.earthblood.tictactoe.util.GameBox;
 import com.earthblood.tictactoe.util.GameSymbol;
@@ -93,7 +91,6 @@ public class GameActivity extends RoboFragmentActivity implements LoaderManager.
     }
 
     private void startTurn(final int[] selectedXBoxIds, final int[] selectedOBoxIds) {
-        Log.d(Toe.TAG,"INSIDE START TURN ------");
         if(toeGame.isAndroidTurn()){
             disableAllBoxes();
 
@@ -148,7 +145,7 @@ public class GameActivity extends RoboFragmentActivity implements LoaderManager.
         String boxIdString = getResources().getResourceEntryName(view.getId());
         int boxId = Integer.parseInt(boxIdString.substring(boxIdString.length() - 1));
 
-        ToeStrategy strategy = new ExplicitToeStrategy(boxId, toeGame.getTurn());
+        ToeStrategy strategy = new ToeStrategyExplicit(boxId, toeGame.getTurn());
         toeGame.chooseBox(getContentResolver(), strategy);
     }
     public void newGame(View view){
@@ -169,8 +166,6 @@ public class GameActivity extends RoboFragmentActivity implements LoaderManager.
     }
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-
-        Log.d(Toe.TAG,"Inside onLoadFinished");
 
         int[] XIds = new int[9];
         int countX = 0;

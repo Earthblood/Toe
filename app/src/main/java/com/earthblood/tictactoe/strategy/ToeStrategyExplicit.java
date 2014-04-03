@@ -6,12 +6,12 @@ import com.earthblood.tictactoe.util.GameSymbol;
  * @author John Piser developer@earthblood.com
  *         Copyright 2014.
  */
-public class ExplicitToeStrategy implements ToeStrategy {
+public class ToeStrategyExplicit implements ToeStrategy {
 
     private Integer boxId;
     private GameSymbol gameSymbol;
 
-    public ExplicitToeStrategy(Integer boxId, GameSymbol gameSymbol) {
+    public ToeStrategyExplicit(Integer boxId, GameSymbol gameSymbol) {
         this.boxId = boxId;
         this.gameSymbol = gameSymbol;
     }
@@ -31,7 +31,7 @@ public class ExplicitToeStrategy implements ToeStrategy {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        ExplicitToeStrategy strategy = (ExplicitToeStrategy) o;
+        ToeStrategyExplicit strategy = (ToeStrategyExplicit) o;
 
         if (!boxId.equals(strategy.boxId)) return false;
         if (gameSymbol != strategy.gameSymbol) return false;

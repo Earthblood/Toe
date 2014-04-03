@@ -8,7 +8,7 @@ import com.earthblood.tictactoe.Robolectric.RobolectricGradleTestRunner;
 import com.earthblood.tictactoe.contentprovider.GameContentProvider;
 import com.earthblood.tictactoe.helper.GameDatabaseHelper;
 import com.earthblood.tictactoe.helper.PreferenceHelper;
-import com.earthblood.tictactoe.strategy.ExplicitToeStrategy;
+import com.earthblood.tictactoe.strategy.ToeStrategyExplicit;
 import com.earthblood.tictactoe.strategy.ToeStrategy;
 import com.earthblood.tictactoe.util.GameSymbol;
 import com.earthblood.tictactoe.util.Skill;
@@ -97,7 +97,7 @@ public class ToeGameTest {
 
 
     private ToeStrategy simulateChooseBoxForO() {
-        ToeStrategy strategy = new ExplicitToeStrategy(3, GameSymbol.O);
+        ToeStrategy strategy = new ToeStrategyExplicit(3, GameSymbol.O);
         toeGame.chooseBox(contentResolver, strategy);
         return strategy;
     }

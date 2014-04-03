@@ -25,5 +25,6 @@
     <string name="skill_easy">Easy</string>
     <string name="skill_normal">Normal</string>
     <string name="skill_hard">Hard</string>
+    <string name="skill_very_hard">Very Hard</string>
 
 </resources>

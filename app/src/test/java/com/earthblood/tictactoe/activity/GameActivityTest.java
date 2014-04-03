@@ -10,7 +10,7 @@ import com.earthblood.tictactoe.R;
 import com.earthblood.tictactoe.Robolectric.RobolectricGradleTestRunner;
 import com.earthblood.tictactoe.engine.ToeGame;
 import com.earthblood.tictactoe.helper.HapticFeedbackHelper;
-import com.earthblood.tictactoe.strategy.ExplicitToeStrategy;
+import com.earthblood.tictactoe.strategy.ToeStrategyExplicit;
 import com.earthblood.tictactoe.strategy.ToeStrategy;
 import com.earthblood.tictactoe.util.GameSymbol;
 import com.earthblood.tictactoe.util.GameWinPattern;
@@ -63,7 +63,7 @@ public class GameActivityTest {
 
         activity.chooseBox(button);
 
-        ToeStrategy expectedStrategy = new ExplicitToeStrategy(8, GameSymbol.O);
+        ToeStrategy expectedStrategy = new ToeStrategyExplicit(8, GameSymbol.O);
         verify(toeGame).chooseBox(any(ContentResolver.class), eq(expectedStrategy));
     }
 

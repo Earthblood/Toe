@@ -3,8 +3,11 @@ package com.earthblood.tictactoe.util;
 
 import com.earthblood.tictactoe.R;
 import com.earthblood.tictactoe.application.Toe;
-import com.earthblood.tictactoe.strategy.EasyToeStrategy;
 import com.earthblood.tictactoe.strategy.ToeStrategy;
+import com.earthblood.tictactoe.strategy.ToeStrategyEasy;
+import com.earthblood.tictactoe.strategy.ToeStrategyHard;
+import com.earthblood.tictactoe.strategy.ToeStrategyNormal;
+import com.earthblood.tictactoe.strategy.ToeStrategyVeryHard;
 
 /**
  * @author John Piser developer@earthblood.com
@@ -12,9 +15,11 @@ import com.earthblood.tictactoe.strategy.ToeStrategy;
  */
 public enum Skill {
 
-    EASY  (1,R.string.skill_easy),
-    NORMAL(2,R.string.skill_normal),
-    HARD  (3,R.string.skill_hard);
+    EASY     (1,R.string.skill_easy),
+    NORMAL   (2,R.string.skill_normal),
+    HARD     (3,R.string.skill_hard),
+    VERYHARD (4,R.string.skill_very_hard);
+
 
     private int id;
     private int resourceId;
@@ -45,13 +50,16 @@ public enum Skill {
     public ToeStrategy strategy(int[] selectedXBoxIds, int [] selectedOBoxIds, GameSymbol androidSymbol){
         switch (this){
             case EASY:
-                return new EasyToeStrategy(selectedXBoxIds, selectedOBoxIds, androidSymbol);
+                return new ToeStrategyEasy(selectedXBoxIds, selectedOBoxIds, androidSymbol);
             case NORMAL:
-                //TODO: Implement NormalToeStrategy
-                return new EasyToeStrategy(selectedXBoxIds, selectedOBoxIds, androidSymbol);
+                //TODO: Implement ToeStrategyNormal
+                return new ToeStrategyNormal(selectedXBoxIds, selectedOBoxIds, androidSymbol);
             case HARD:
-                //TODO: Implement HardToeStrategy
-                return new EasyToeStrategy(selectedXBoxIds, selectedOBoxIds, androidSymbol);
+                //TODO: Implement ToeStrategyHard
+                return new ToeStrategyHard(selectedXBoxIds, selectedOBoxIds, androidSymbol);
+            case VERYHARD:
+                //TODO: Implement ToeStrategyVeryHard
+                return new ToeStrategyVeryHard(selectedXBoxIds, selectedOBoxIds, androidSymbol);
         }
         return null;
     }
