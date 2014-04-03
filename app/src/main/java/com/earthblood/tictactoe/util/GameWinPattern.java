@@ -60,18 +60,15 @@ public enum GameWinPattern {
         }
         return notFound;
     }
-    public static GameWinPattern[] randomBunchOfWinningPatterns(){
-        int min = 4;
+    public static GameWinPattern[] randomBunchOfWinningPatterns(int minNumberOfPatters){
         int max = GameWinPattern.values().length;
 
         Random random = new Random();
-        int numberOfPatterns = random.nextInt(max - min) + min;
+        int numberOfPatterns = random.nextInt(max -minNumberOfPatters) + minNumberOfPatters;
         GameWinPattern[] returnedPatterns = new GameWinPattern[numberOfPatterns];
 
         int[] ordinalValues = {0,1,2,3,4,5,6,7};
 
-        //Fisher–Yates shuffle:
-        // http://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle#The_modern_algorithm
         int n = max - 1;
         for(int i = n; i >= 1; i--){
             int r = random.nextInt(n);
@@ -80,7 +77,7 @@ public enum GameWinPattern {
             ordinalValues[r] = tmpN;
             ordinalValues[n] = tmpR;
         }
-        //ordinalValues are now random: take the first bunch until numberOfPatterns
+
         for (int p =0; p < numberOfPatterns; p++) {
             returnedPatterns[p] = GameWinPattern.values()[ordinalValues[p]];
         }

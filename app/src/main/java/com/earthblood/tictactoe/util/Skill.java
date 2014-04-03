@@ -52,13 +52,10 @@ public enum Skill {
             case EASY:
                 return new ToeStrategyEasy(selectedXBoxIds, selectedOBoxIds, androidSymbol);
             case NORMAL:
-                //TODO: Implement ToeStrategyNormal
                 return new ToeStrategyNormal(selectedXBoxIds, selectedOBoxIds, androidSymbol);
             case HARD:
-                //TODO: Implement ToeStrategyHard
                 return new ToeStrategyHard(selectedXBoxIds, selectedOBoxIds, androidSymbol);
             case VERYHARD:
-                //TODO: Implement ToeStrategyVeryHard
                 return new ToeStrategyVeryHard(selectedXBoxIds, selectedOBoxIds, androidSymbol);
         }
         return null;

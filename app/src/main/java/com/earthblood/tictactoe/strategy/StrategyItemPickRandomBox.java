@@ -13,7 +13,7 @@ import org.apache.commons.lang3.ArrayUtils;
  *         Copyright 2014.
  *
  *
- *         PICK AN AVAILABLE BOX AT RANDOM
+ *         PICK ANY AVAILABLE BOX AT RANDOM
  */
 public class StrategyItemPickRandomBox extends StrategyItem {
 

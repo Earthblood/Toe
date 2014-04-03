@@ -13,17 +13,18 @@ import org.apache.commons.lang3.ArrayUtils;
  *         Copyright 2014.
  *
  *         BLOCK IF OPPONENT HAS TWO IN A ROW WITH THE WINNING BOX AVAILABLE
- *         CHECK A RANDOM NUMBER OF WINNING PATTERNS, UP TO (5) PATTERNS MAY BE OVERLOOKED
- *         TO PROVIDE A CHANCE FOR THE OPPONENT TO WIN
+ *         CHECK A RANDOM NUMBER OF WINNING PATTERNS, Up To (2) PATTERNS MAY BE OVERLOOKED
+ *         AND PROVIDE A SLIM CHANCE FOR THE OPPONENT TO WIN
  */
-public class StrategyItemDefensiveSemi extends StrategyItem{
+public class StrategyItemDefensiveHigh extends StrategyItem {
 
-    public StrategyItemDefensiveSemi(StrategyItem successor) {
+
+    public StrategyItemDefensiveHigh(StrategyItem successor) {
         this.setSuccessor(successor);
     }
 
     public int execute(int[] selectedXBoxIds, int[] selectedOBoxIds, GameSymbol androidSymbol) {
-        Log.d(Toe.TAG, "Inside StrategyItemDefensiveSemi");
+        Log.d(Toe.TAG, "Inside StrategyItemDefensiveHigh");
         int boxId = getBoxId(selectedXBoxIds, selectedOBoxIds, androidSymbol);
         if (ArrayUtils.contains(ALL_BOXES, boxId)) {
             Log.d(Toe.TAG, "Found: " + boxId);
@@ -44,7 +45,7 @@ public class StrategyItemDefensiveSemi extends StrategyItem{
 
         int[] selectedBoxesToInspect = androidSymbol == GameSymbol.O ? selectedXBoxIds : selectedOBoxIds;
 
-        for (GameWinPattern gameWinPattern : GameWinPattern.randomBunchOfWinningPatterns(GameWinPattern.values().length - 5)) {
+        for (GameWinPattern gameWinPattern : GameWinPattern.randomBunchOfWinningPatterns(GameWinPattern.values().length -2)) {
             int count = 0;
             for (int selectedOpponentPosition : selectedBoxesToInspect) {
                 if (gameWinPattern.containsBoxId(selectedOpponentPosition)) {
@@ -61,4 +62,5 @@ public class StrategyItemDefensiveSemi extends StrategyItem{
         return NOT_FOUND;
 
     }
+
 }

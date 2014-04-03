@@ -11,24 +11,23 @@ import org.apache.commons.lang3.ArrayUtils;
 /**
  * @author John Piser developer@earthblood.com
  *         Copyright 2014.
- *         <p/>
- *         <p/>
- *         BLOCK IF OPPONENT HAS TWO IN A ROW WITH THE WINNING BOX AVAILABLE
+ *
+ *         IF YOU SEE A CHANCE, TAKE IT!
  */
-public class StrategyItemDefensiveFully extends StrategyItem {
+public class StrategyItemOffensive extends StrategyItem{
 
-
-    public StrategyItemDefensiveFully(StrategyItem successor) {
+    public StrategyItemOffensive(StrategyItem successor) {
         this.setSuccessor(successor);
     }
 
-    public int execute(int[] selectedXBoxIds, int[] selectedOBoxIds, GameSymbol androidSymbol) {
-        Log.d(Toe.TAG, "Inside StrategyItemDefensiveFully");
+    public int execute(int[] selectedXBoxIds, int[] selectedOBoxIds, GameSymbol androidSymbol){
+        Log.d(Toe.TAG, "Inside StrategyItemOffensive");
         int boxId = getBoxId(selectedXBoxIds, selectedOBoxIds, androidSymbol);
-        if (ArrayUtils.contains(ALL_BOXES, boxId)) {
+        if(ArrayUtils.contains(ALL_BOXES, boxId)){
             Log.d(Toe.TAG, "Found: " + boxId);
             return boxId;
-        } else {
+        }
+        else{
             return super.execute(selectedXBoxIds, selectedOBoxIds, androidSymbol);
         }
     }
@@ -41,12 +40,12 @@ public class StrategyItemDefensiveFully extends StrategyItem {
         currentlySelectedBoxes = ArrayUtils.removeElements(currentlySelectedBoxes, DEFAULT_ZEROS);
         int[] availableBoxes = ArrayUtils.removeElements(ALL_BOXES, currentlySelectedBoxes);
 
-        int[] selectedBoxesToInspect = androidSymbol == GameSymbol.O ? selectedXBoxIds : selectedOBoxIds;
+        int[] selectedBoxesToInspect = androidSymbol == GameSymbol.O ? selectedOBoxIds : selectedXBoxIds;
 
         for (GameWinPattern gameWinPattern : GameWinPattern.values()) {
             int count = 0;
-            for (int selectedOpponentPosition : selectedBoxesToInspect) {
-                if (gameWinPattern.containsBoxId(selectedOpponentPosition)) {
+            for (int selectedOffensivePosition : selectedBoxesToInspect) {
+                if (gameWinPattern.containsBoxId(selectedOffensivePosition)) {
                     count++;
                 }
             }

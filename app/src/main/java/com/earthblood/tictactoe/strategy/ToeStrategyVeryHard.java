@@ -23,11 +23,11 @@ public class ToeStrategyVeryHard implements ToeStrategy{
 
         StrategyItemPickRandomBox  pickRandom          = new StrategyItemPickRandomBox();
         StrategyItemPickMiddleBox  pickMiddle          = new StrategyItemPickMiddleBox(pickRandom);
-        StrategyItemDefensiveFully pickDefensiveFully  = new StrategyItemDefensiveFully(pickMiddle);
-        //TODO: pick offensive
+        StrategyItemDefensiveHigh  pickDefensiveHigh   = new StrategyItemDefensiveHigh(pickMiddle);
+        StrategyItemOffensive      pickOffensive       = new StrategyItemOffensive(pickDefensiveHigh);
 
 
-        return pickDefensiveFully.execute(selectedXBoxIds, selectedOBoxIds, androidSymbol);
+        return pickOffensive.execute(selectedXBoxIds, selectedOBoxIds, androidSymbol);
     }
 
     @Override
