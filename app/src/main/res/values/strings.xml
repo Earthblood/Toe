@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Tic Tac Toe</string>
+    <string name="app_name">Toe</string>
     <string name="number_of_players">Players</string>
     <string name="coin_toss">Coin Toss</string>
     <string name="number_1">1</string>
     <string name="number_2">2</string>
     <string name="message_you_will_be">You: X Android: O</string>
     <string name="message_turn_indicator">Current turn: </string>
-    <string name="label_coin_toss">Toss a Coin</string>
+    <string name="label_coin_toss">Flip a Coin</string>
     <string name="who_goes_first">%s goes first</string>
     <string name="button_start_game">Play</string>
     <string name="new_game">New Game</string>
-    <string name="select_difficulty">Select Skill Level</string>
     <string name="computer_thinking">Thinking</string>
     <string name="done">Done </string>
+    <string name="two_player">Two Player</string>
 
     <string name="game_message_wins">%s WINS!</string>
     <string name="game_message_draw">DRAW!</string>

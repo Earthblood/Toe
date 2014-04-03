@@ -8,6 +8,7 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.widget.GridLayout;
+import android.text.Html;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -18,8 +19,8 @@ import com.earthblood.tictactoe.contentprovider.GameContentProvider;
 import com.earthblood.tictactoe.engine.ToeGame;
 import com.earthblood.tictactoe.helper.GameDatabaseHelper;
 import com.earthblood.tictactoe.helper.HapticFeedbackHelper;
-import com.earthblood.tictactoe.strategy.ToeStrategyExplicit;
 import com.earthblood.tictactoe.strategy.ToeStrategy;
+import com.earthblood.tictactoe.strategy.ToeStrategyExplicit;
 import com.earthblood.tictactoe.util.GameBox;
 import com.earthblood.tictactoe.util.GameSymbol;
 import com.earthblood.tictactoe.util.GameWinPattern;
@@ -54,8 +55,15 @@ public class GameActivity extends RoboFragmentActivity implements LoaderManager.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        titleHack();
         initializeButtonFeedback();
         getSupportLoaderManager().initLoader(0, null, this);
+    }
+
+    private void titleHack() {
+        String gameType = toeGame.isOnePlayerGame()? toeGame.getSkill().toString() : getString(R.string.two_player);
+        String title = "<font color=#CD5C5C><b>" + getString(R.string.app_name)  + "</b></font><font color=#F5F5F5>&nbsp;&nbsp;&nbsp;" + gameType +"</font>";
+        setTitle(Html.fromHtml(title));
     }
 
     private void initializeButtonFeedback(){

@@ -2,6 +2,7 @@ package com.earthblood.tictactoe.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -51,6 +52,8 @@ public class MainActivity extends RoboActivity {
         super.onCreate(savedInstanceState);
         hapticFeedbackHelper.addFeedbackToButtonList(Arrays.asList(buttonNewGame, coinTossButton, onePlayerButton, twoPlayerButton));
         setupSkill();
+        setTitle(getString(R.string.app_name));
+        setTitleColor(getResources().getColor(R.color.IndianRed));
     }
 
     @Override
@@ -83,12 +86,14 @@ public class MainActivity extends RoboActivity {
     }
 
     private void setupSkill() {
-        skillSpinner.setAdapter(new ArrayAdapter<Skill>(this, android.R.layout.simple_list_item_1, Skill.values()));
+        skillSpinner.setAdapter(new ArrayAdapter<Skill>(this, R.layout.skill_spinner_layout, Skill.values()));
         skillSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 hapticFeedbackHelper.vibrate(HapticFeedbackHelper.VIBE_PATTERN_SHORT, HapticFeedbackHelper.VIBE_PATTERN_NO_REPEAT);
                 Skill skill = (Skill) parent.getItemAtPosition(position);
+                ((TextView) parent.getChildAt(0)).setTextColor(getResources().getColor(R.color.lime));
+                ((TextView) parent.getChildAt(0)).setGravity(Gravity.CENTER);
                 toeGame.setSkill(skill);
             }
             @Override

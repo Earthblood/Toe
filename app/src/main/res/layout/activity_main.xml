@@ -58,7 +58,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/message_you_will_be"
         android:layout_margin="50dp"
-        android:prompt="@string/select_difficulty"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
         />
 
     <Button
