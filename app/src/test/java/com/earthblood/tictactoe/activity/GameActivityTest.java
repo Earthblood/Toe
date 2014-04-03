@@ -10,8 +10,8 @@ import com.earthblood.tictactoe.R;
 import com.earthblood.tictactoe.Robolectric.RobolectricGradleTestRunner;
 import com.earthblood.tictactoe.engine.ToeGame;
 import com.earthblood.tictactoe.helper.HapticFeedbackHelper;
-import com.earthblood.tictactoe.strategy.ToeStrategyExplicit;
 import com.earthblood.tictactoe.strategy.ToeStrategy;
+import com.earthblood.tictactoe.strategy.ToeStrategyExplicit;
 import com.earthblood.tictactoe.util.GameSymbol;
 import com.earthblood.tictactoe.util.GameWinPattern;
 import com.google.inject.Inject;
@@ -68,7 +68,16 @@ public class GameActivityTest {
     }
 
     @Test
+    public void shouldVibrateOnAndroidWin(){
+        when(hapticFeedbackHelper.getWinningPattern(true)).thenReturn(HapticFeedbackHelper.VIBE_PATTERN_ANDROID_WIN);
+        when(toeGame.symbolIsAndroid(GameSymbol.O)).thenReturn(true);
+        simulateOWins();
+        verify(hapticFeedbackHelper).vibrate(HapticFeedbackHelper.VIBE_PATTERN_ANDROID_WIN, HapticFeedbackHelper.VIBE_PATTERN_NO_REPEAT);
+    }
+    @Test
     public void shouldVibrateOnWin(){
+        when(hapticFeedbackHelper.getWinningPattern(false)).thenReturn(HapticFeedbackHelper.VIBE_PATTERN_WIN);
+        when(toeGame.symbolIsAndroid(GameSymbol.O)).thenReturn(false);
         simulateOWins();
         verify(hapticFeedbackHelper).vibrate(HapticFeedbackHelper.VIBE_PATTERN_WIN, HapticFeedbackHelper.VIBE_PATTERN_NO_REPEAT);
     }

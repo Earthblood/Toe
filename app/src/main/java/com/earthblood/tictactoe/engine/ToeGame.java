@@ -82,8 +82,12 @@ public class ToeGame {
         return getNumOfPlayers() == 1;
     }
 
+    public boolean symbolIsAndroid(GameSymbol symbol){
+        return isOnePlayerGame() && symbol == GameSymbol.O;
+    }
+
     public boolean isAndroidTurn() {
-        return isOnePlayerGame() && getTurn() == GameSymbol.O;
+        return isOnePlayerGame() && symbolIsAndroid(getTurn());
     }
 
     public void generateAndroidTurn(ContentResolver contentResolver, int[] selectedXBoxIds, int[] selectedOBoxIds) {

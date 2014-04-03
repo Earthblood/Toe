@@ -45,7 +45,9 @@ public class StrategyItemDefensiveHigh extends StrategyItem {
 
         int[] selectedBoxesToInspect = androidSymbol == GameSymbol.O ? selectedXBoxIds : selectedOBoxIds;
 
-        for (GameWinPattern gameWinPattern : GameWinPattern.randomBunchOfWinningPatterns(GameWinPattern.values().length -2)) {
+        GameWinPattern[] gameWinPatternsSubSet = GameWinPattern.randomBunchOfWinningPatterns(GameWinPattern.values().length - 2);
+        Log.d(Toe.TAG, "blocking against " + gameWinPatternsSubSet.length + " patterns");
+        for (GameWinPattern gameWinPattern : gameWinPatternsSubSet) {
             int count = 0;
             for (int selectedOpponentPosition : selectedBoxesToInspect) {
                 if (gameWinPattern.containsBoxId(selectedOpponentPosition)) {

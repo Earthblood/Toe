@@ -123,7 +123,7 @@ public class GameActivity extends RoboFragmentActivity implements LoaderManager.
 
         if(gameWinPattern != null){
             //We Have a Winner
-            hapticFeedbackHelper.vibrate(HapticFeedbackHelper.VIBE_PATTERN_WIN, HapticFeedbackHelper.VIBE_PATTERN_NO_REPEAT);
+            hapticFeedbackHelper.vibrate(hapticFeedbackHelper.getWinningPattern(toeGame.symbolIsAndroid(winningSymbol)), HapticFeedbackHelper.VIBE_PATTERN_NO_REPEAT);
             disableAllBoxes();
             highlightWinningPattern(gameWinPattern);
             messageTurnIndicatorValue.setText(getString(R.string.game_message_wins, winningSymbol.getValue()));

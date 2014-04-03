@@ -17,6 +17,7 @@ public class HapticFeedbackHelper {
 
     public static final long[] VIBE_PATTERN_SHORT = {0, 50, 1000 };
     public static final long[] VIBE_PATTERN_WIN = new long[]{0,200,50,200,50,200};
+    public static final long[] VIBE_PATTERN_ANDROID_WIN = new long[]{0,100,50,100,50,100};
     public static final int    VIBE_PATTERN_NO_REPEAT = -1;
 
     private static boolean vibeFlag = true;
@@ -25,6 +26,9 @@ public class HapticFeedbackHelper {
 
     public void vibrate(long[] pattern, int repeat){
         vibrator.vibrate(pattern, repeat);
+    }
+    public long[] getWinningPattern(boolean androidWon){
+        return androidWon ? VIBE_PATTERN_ANDROID_WIN : VIBE_PATTERN_WIN;
     }
     public void addFeedbackToButtonList(List<Button> buttons){
         for (Button button : buttons) {
