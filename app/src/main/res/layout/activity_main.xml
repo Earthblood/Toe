@@ -17,15 +17,16 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_margin="0dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:gravity="center">
 
         <TextView
             android:id="@+id/numberOfPlayersLabel"
             style="@style/statusTextLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
             android:layout_weight="1"
+            android:layout_gravity="center_vertical"
             android:gravity="center|center_vertical"
             android:text="@string/number_of_players"
             />
@@ -36,8 +37,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
+            android:layout_weight="2"
             android:layout_gravity="center_vertical"
-            android:layout_weight="1"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
@@ -109,8 +110,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_below="@+id/game_grid_layout"
-        android:layout_centerInParent="true"
+        android:gravity="center"
         android:layout_margin="20dp"
         android:onClick="newGame"
         android:text="@string/button_start_game"/>
