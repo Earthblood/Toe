@@ -66,12 +66,16 @@ public enum GameWinPattern {
         return notFound;
     }
     public static GameWinPattern[] randomBunchOfWinningPatterns(int minNumberOfPatters){
-        int max = GameWinPattern.values().length;
 
         Random random = new Random();
-        int numberOfPatterns = random.nextInt(max -minNumberOfPatters) + minNumberOfPatters;
-        GameWinPattern[] returnedPatterns = new GameWinPattern[numberOfPatterns];
 
+        int max = GameWinPattern.values().length;
+        int numberOfPatterns = max;
+
+        if(minNumberOfPatters < max){
+            numberOfPatterns = random.nextInt(max -minNumberOfPatters) + minNumberOfPatters;
+        }
+        GameWinPattern[] returnedPatterns = new GameWinPattern[numberOfPatterns];
         int[] ordinalValues = {0,1,2,3,4,5,6,7};
 
         int n = max - 1;
@@ -82,8 +86,8 @@ public enum GameWinPattern {
             ordinalValues[r] = tmpN;
             ordinalValues[n] = tmpR;
         }
-
         Log.d(Toe.TAG, "Ordinal values are:" + Arrays.toString(ordinalValues));
+
         for (int p =0; p < numberOfPatterns; p++) {
             returnedPatterns[p] = GameWinPattern.values()[ordinalValues[p]];
         }

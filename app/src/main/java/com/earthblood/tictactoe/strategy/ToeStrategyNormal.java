@@ -6,11 +6,7 @@ import com.earthblood.tictactoe.util.GameSymbol;
  * @author John Piser developer@earthblood.com
  *         Copyright 2014.
  */
-public class ToeStrategyNormal implements ToeStrategy {
-
-    private final int[] selectedXBoxIds;
-    private final int[] selectedOBoxIds;
-    private final GameSymbol androidSymbol;
+public class ToeStrategyNormal extends ToeStrategyBase implements ToeStrategy {
 
     public ToeStrategyNormal(int[] selectedXBoxIds, int[] selectedOBoxIds, GameSymbol androidSymbol) {
         this.selectedXBoxIds = selectedXBoxIds;
@@ -21,11 +17,14 @@ public class ToeStrategyNormal implements ToeStrategy {
     @Override
     public int getBoxId() {
 
-        StrategyItemPickRandomBox pickRandom    = new StrategyItemPickRandomBox();
-        StrategyItemPickMiddleBox pickMiddle    = new StrategyItemPickMiddleBox(pickRandom);
-        StrategyItemDefensiveSemi semiDefensive = new StrategyItemDefensiveSemi(pickMiddle);
+        StrategyItemPickRandomBox   pickRandom    = new StrategyItemPickRandomBox();
+        StrategyItemPickMiddleBox   pickMiddle    = new StrategyItemPickMiddleBox(pickRandom);
+        StrategyItemPatternDetector pickDefensive = new StrategyItemPatternDetector(
+                                                         pickMiddle,
+                                                         totalPatterns() - 5,
+                                                         androidOpponent());
 
-        return semiDefensive.execute(selectedXBoxIds, selectedOBoxIds, androidSymbol);
+        return pickDefensive.execute(selectedXBoxIds, selectedOBoxIds, androidSymbol);
 
     }
 

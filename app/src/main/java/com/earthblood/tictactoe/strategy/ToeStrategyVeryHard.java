@@ -6,11 +6,7 @@ import com.earthblood.tictactoe.util.GameSymbol;
  * @author John Piser developer@earthblood.com
  *         Copyright 2014.
  */
-public class ToeStrategyVeryHard implements ToeStrategy{
-
-    private final int[] selectedXBoxIds;
-    private final int[] selectedOBoxIds;
-    private final GameSymbol androidSymbol;
+public class ToeStrategyVeryHard extends ToeStrategyBase implements ToeStrategy{
 
     public ToeStrategyVeryHard(int[] selectedXBoxIds, int[] selectedOBoxIds, GameSymbol androidSymbol) {
         this.selectedXBoxIds = selectedXBoxIds;
@@ -21,10 +17,17 @@ public class ToeStrategyVeryHard implements ToeStrategy{
     @Override
     public int getBoxId() {
 
-        StrategyItemPickRandomBox  pickRandom          = new StrategyItemPickRandomBox();
-        StrategyItemPickMiddleBox  pickMiddle          = new StrategyItemPickMiddleBox(pickRandom);
-        StrategyItemDefensiveHigh  pickDefensiveHigh   = new StrategyItemDefensiveHigh(pickMiddle);
-        StrategyItemOffensive      pickOffensive       = new StrategyItemOffensive(pickDefensiveHigh);
+        StrategyItemPickRandomBox   pickRandom          = new StrategyItemPickRandomBox();
+        StrategyItemPickMiddleBox   pickMiddle          = new StrategyItemPickMiddleBox(pickRandom);
+        StrategyItemPatternDetector pickDefensive       = new StrategyItemPatternDetector(
+                                                               pickMiddle,
+                                                               totalPatterns() - 1,
+                                                               androidOpponent());
+
+        StrategyItemPatternDetector pickOffensive       = new StrategyItemPatternDetector(
+                                                               pickDefensive,
+                                                               totalPatterns(),
+                                                               androidSymbol);
 
 
         return pickOffensive.execute(selectedXBoxIds, selectedOBoxIds, androidSymbol);

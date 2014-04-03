@@ -5,6 +5,8 @@ import android.util.Log;
 import com.earthblood.tictactoe.application.Toe;
 import com.earthblood.tictactoe.util.GameSymbol;
 
+import org.apache.commons.lang3.ArrayUtils;
+
 /**
  * @author John Piser developer@earthblood.com
  *         Copyright 2014.
@@ -19,17 +21,34 @@ public class StrategyItem {
     public static final int MIDDLE_BOX_POSITION = 5;
 
     private StrategyItem successor;
+    protected int[] currentlySelectedBoxes;
+    protected int[] availableBoxes;
+
+
+    protected int getBoxId(int[] selectedXBoxIds, int[] selectedOBoxIds, GameSymbol androidSymbol){
+        return NOT_FOUND;
+    }
 
     public int execute(int[] selectedXBoxIds, int[] selectedOBoxIds, GameSymbol androidSymbol){
-        if(getSuccessor() != null){
-           return getSuccessor().execute(selectedXBoxIds, selectedOBoxIds, androidSymbol);
+        Log.i(Toe.TAG, "Inside: " + getClass().getName());
+
+        currentlySelectedBoxes = ArrayUtils.addAll(selectedXBoxIds, selectedOBoxIds);
+        currentlySelectedBoxes = ArrayUtils.removeElements(currentlySelectedBoxes, DEFAULT_ZEROS);
+        availableBoxes = ArrayUtils.removeElements(ALL_BOXES, currentlySelectedBoxes);
+
+
+        int boxId = getBoxId(selectedXBoxIds, selectedOBoxIds, androidSymbol);
+        if(ArrayUtils.contains(ALL_BOXES, boxId)){
+            Log.i(Toe.TAG, "Found: " + boxId);
+            return boxId;
+        }
+        else if(successor != null){
+            return successor.execute(selectedXBoxIds, selectedOBoxIds, androidSymbol);
         }
         else{
-            Log.d(Toe.TAG," ! Unable to find a boxId ! ");
             return NOT_FOUND;
         }
     }
-
 
 
     protected StrategyItem getSuccessor() {

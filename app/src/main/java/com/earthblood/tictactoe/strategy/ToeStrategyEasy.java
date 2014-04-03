@@ -6,11 +6,7 @@ import com.earthblood.tictactoe.util.GameSymbol;
  * @author John Piser developer@earthblood.com
  *         Copyright 2014.
  */
-public class ToeStrategyEasy implements ToeStrategy {
-
-    private final int[] selectedXBoxIds;
-    private final int[] selectedOBoxIds;
-    private final GameSymbol androidSymbol;
+public class ToeStrategyEasy extends ToeStrategyBase implements ToeStrategy {
 
     public ToeStrategyEasy(int[] selectedXBoxIds, int[] selectedOBoxIds, GameSymbol androidSymbol) {
         this.selectedXBoxIds = selectedXBoxIds;

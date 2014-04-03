@@ -6,11 +6,7 @@ import com.earthblood.tictactoe.util.GameSymbol;
  * @author John Piser developer@earthblood.com
  *         Copyright 2014.
  */
-public class ToeStrategyHard implements ToeStrategy {
-
-    private final int[] selectedXBoxIds;
-    private final int[] selectedOBoxIds;
-    private final GameSymbol androidSymbol;
+public class ToeStrategyHard extends ToeStrategyBase implements ToeStrategy {
 
     public ToeStrategyHard(int[] selectedXBoxIds, int[] selectedOBoxIds, GameSymbol androidSymbol) {
         this.selectedXBoxIds = selectedXBoxIds;
@@ -21,10 +17,18 @@ public class ToeStrategyHard implements ToeStrategy {
     @Override
     public int getBoxId() {
 
-        StrategyItemPickRandomBox  pickRandom         = new StrategyItemPickRandomBox();
-        StrategyItemPickMiddleBox  pickMiddle         = new StrategyItemPickMiddleBox(pickRandom);
-        StrategyItemDefensiveSemi  pickDefensiveSemi  = new StrategyItemDefensiveSemi(pickMiddle);
-        StrategyItemOffensive      pickOffensive      = new StrategyItemOffensive(pickDefensiveSemi);
+        StrategyItemPickRandomBox   pickRandom         = new StrategyItemPickRandomBox();
+        StrategyItemPickMiddleBox   pickMiddle         = new StrategyItemPickMiddleBox(pickRandom);
+        StrategyItemPatternDetector pickDefensive      = new StrategyItemPatternDetector(
+                                                              pickMiddle,
+                                                              totalPatterns() - 5,
+                                                              androidOpponent());
+
+        StrategyItemPatternDetector pickOffensive       = new StrategyItemPatternDetector(
+                                                                pickDefensive,
+                                                                totalPatterns() -1,
+                                                                androidSymbol);
+
 
         return pickOffensive.execute(selectedXBoxIds, selectedOBoxIds, androidSymbol);
     }
