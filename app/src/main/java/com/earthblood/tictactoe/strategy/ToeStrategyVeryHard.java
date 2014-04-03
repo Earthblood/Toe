@@ -21,7 +21,7 @@ public class ToeStrategyVeryHard extends ToeStrategyBase implements ToeStrategy{
         StrategyItemPickMiddleBox   pickMiddle          = new StrategyItemPickMiddleBox(pickRandom);
         StrategyItemPatternDetector pickDefensive       = new StrategyItemPatternDetector(
                                                                pickMiddle,
-                                                               totalPatterns() - 1,
+                                                               totalPatterns(),
                                                                androidOpponent());
 
         StrategyItemPatternDetector pickOffensive       = new StrategyItemPatternDetector(

@@ -39,7 +39,7 @@ public class StrategyItemPatternDetector extends StrategyItem {
         //Guard against selecting more patterns than exist.
         numberOfPatternsToDetect = numberOfPatternsToDetect > GameWinPattern.values().length ? GameWinPattern.values().length : numberOfPatternsToDetect;
 
-        GameWinPattern[] gameWinPatternsSubSet = GameWinPattern.randomBunchOfWinningPatterns(numberOfPatternsToDetect);
+        GameWinPattern[] gameWinPatternsSubSet = GameWinPattern.randomBunchOfWinningPatterns(numberOfPatternsToDetect, getRandomObject());
 
         for (GameWinPattern gameWinPattern : gameWinPatternsSubSet) {
             int count = 0;

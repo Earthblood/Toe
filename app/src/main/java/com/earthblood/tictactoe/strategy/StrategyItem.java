@@ -7,6 +7,8 @@ import com.earthblood.tictactoe.util.GameSymbol;
 
 import org.apache.commons.lang3.ArrayUtils;
 
+import java.util.Random;
+
 /**
  * @author John Piser developer@earthblood.com
  *         Copyright 2014.
@@ -24,6 +26,14 @@ public class StrategyItem {
     protected int[] currentlySelectedBoxes;
     protected int[] availableBoxes;
 
+    protected Random random = new Random();
+
+    public int getRandom(int min, int max){
+        return random.nextInt(max - min + 1) + min;
+    }
+    public Random getRandomObject(){
+        return this.random;
+    }
 
     protected int getBoxId(int[] selectedXBoxIds, int[] selectedOBoxIds, GameSymbol androidSymbol){
         return NOT_FOUND;

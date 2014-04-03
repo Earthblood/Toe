@@ -65,9 +65,7 @@ public enum GameWinPattern {
         }
         return notFound;
     }
-    public static GameWinPattern[] randomBunchOfWinningPatterns(int minNumberOfPatters){
-
-        Random random = new Random();
+    public static GameWinPattern[] randomBunchOfWinningPatterns(int minNumberOfPatters, Random random){
 
         int max = GameWinPattern.values().length;
         int numberOfPatterns = max;

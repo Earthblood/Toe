@@ -10,11 +10,15 @@ import java.util.Random;
  */
 public class CoinTossHelper {
 
-    public static int getRandom(int min, int max){
-        Random random = new Random();
-        return random.nextInt(max - min + 1) + min;
+    private Random random;
+
+    public CoinTossHelper() {
+        this.random = new Random();
     }
 
+    public int getRandom(int min, int max){
+        return random.nextInt(max - min + 1) + min;
+    }
 
     public GameSymbol coinToss(){
         int random = getRandom(0, 10);
