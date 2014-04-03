@@ -1,5 +1,8 @@
 package com.earthblood.tictactoe.strategy;
 
+import android.util.Log;
+
+import com.earthblood.tictactoe.application.Toe;
 import com.earthblood.tictactoe.util.GameSymbol;
 
 import java.util.Random;
@@ -15,8 +18,12 @@ public class StrategyItemPickRandomBox extends StrategyItem {
 
     public int getBoxId(int[] selectedXBoxIds, int[] selectedOBoxIds, GameSymbol androidSymbol) {
 
+
         Random random = new Random();
-        int selectedIndex = random.nextInt(availableBoxes.length - 1);
+        int max = availableBoxes.length - 1;
+        Log.d(Toe.TAG, " max ="+max);
+
+        int selectedIndex = max > 0 ? random.nextInt(max) : 0;
 
         return availableBoxes[selectedIndex];
     }

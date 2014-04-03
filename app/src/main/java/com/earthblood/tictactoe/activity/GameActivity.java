@@ -46,6 +46,7 @@ public class GameActivity extends RoboFragmentActivity implements LoaderManager.
 
     @InjectView(R.id.game_grid_layout)             GridLayout gridLayout;
     @InjectView(R.id.message_turn_indicator_value) TextView messageTurnIndicatorValue;
+    @InjectView(R.id.message_turn_indicator)       TextView getMessageTurnIndicator;
     @InjectView(R.id.new_game_button)              Button newGameButton;
 
     @Inject ToeGame toeGame;
@@ -134,13 +135,16 @@ public class GameActivity extends RoboFragmentActivity implements LoaderManager.
             hapticFeedbackHelper.vibrate(hapticFeedbackHelper.getWinningPattern(toeGame.symbolIsAndroid(winningSymbol)), HapticFeedbackHelper.VIBE_PATTERN_NO_REPEAT);
             disableAllBoxes();
             highlightWinningPattern(gameWinPattern);
+            getMessageTurnIndicator.setText(getString(R.string.game_message_over));
             messageTurnIndicatorValue.setText(getString(R.string.game_message_wins, winningSymbol.getValue()));
         }
         else if(gameOverNoWinner){
+            getMessageTurnIndicator.setText(getString(R.string.game_message_over));
             messageTurnIndicatorValue.setText(getString(R.string.game_message_draw));
         }
         else{
             //Next Turn
+            getMessageTurnIndicator.setText(getString(R.string.message_turn_indicator));
             messageTurnIndicatorValue.setText(toeGame.getTurn().getValue());
             startTurn(selectedXBoxIds, selectedOBoxIds);
         }

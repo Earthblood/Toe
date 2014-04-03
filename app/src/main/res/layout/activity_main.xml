@@ -1,99 +1,118 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:background="@color/black"
-    tools:context="com.earthblood.tictactoe.activity.MainActivity">
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/black"
+                android:paddingBottom="@dimen/activity_vertical_margin"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:paddingTop="@dimen/activity_vertical_margin"
+                tools:context="com.earthblood.tictactoe.activity.MainActivity">
 
-    <TextView
-        android:id="@+id/numberOfPlayersLabel"
-        android:text="@string/number_of_players"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        style="@style/statusTextLabel"
-         />
 
-    <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/players_radio_group"
+    <LinearLayout
+        android:id="@+id/topLayout"
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/numberOfPlayersLabel"
+        android:layout_margin="0dp"
         android:orientation="horizontal">
-        <RadioButton android:id="@+id/gameplay_one_player"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/number_1"
-            android:onClick="setNumberOfPlayers"
-            style="@style/statusTextLabel"/>
-        <RadioButton android:id="@+id/gameplay_two_player"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/number_2"
-            android:onClick="setNumberOfPlayers"
-            style="@style/statusTextLabel"/>
-    </RadioGroup>
 
+        <TextView
+            android:id="@+id/numberOfPlayersLabel"
+            style="@style/statusTextLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:gravity="center|center_vertical"
+            android:text="@string/number_of_players"
+            />
+
+        <RadioGroup
+            android:id="@+id/players_radio_group"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/gameplay_one_player"
+                style="@style/statusTextLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="setNumberOfPlayers"
+                android:text="@string/number_1"/>
+
+            <RadioButton
+                android:id="@+id/gameplay_two_player"
+                style="@style/statusTextLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="setNumberOfPlayers"
+                android:text="@string/number_2"/>
+        </RadioGroup>
+
+    </LinearLayout>
 
     <TextView
         android:id="@+id/message_you_will_be"
-        android:text="@string/message_you_will_be"
+        style="@style/statusTextLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/topLayout"
         android:layout_centerInParent="true"
-        android:layout_below="@+id/players_radio_group"
         android:layout_marginTop="75dp"
-        style="@style/statusTextLabel"/>
+        android:text="@string/message_you_will_be"/>
 
     <Spinner
         android:id="@+id/skill_spinner"
-        android:background="@drawable/custom_btn_toe"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/message_you_will_be"
-        android:layout_margin="50dp"
         android:layout_centerHorizontal="true"
+        android:layout_margin="50dp"
+        android:background="@drawable/custom_btn_toe"
         android:gravity="center"
         />
 
     <Button
         android:id="@+id/coin_toss_button"
-        android:text="@string/label_coin_toss"
         style="@style/btnStyleToe"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
         android:layout_below="@+id/skill_spinner"
-        android:textSize="20sp"
+        android:layout_centerInParent="true"
         android:onClick="coinToss"
+        android:text="@string/label_coin_toss"
+        android:textSize="20sp"
         />
 
     <TextView
         android:id="@+id/turn_display"
+        style="@style/statusTextLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
         android:layout_below="@+id/coin_toss_button"
-        android:layout_marginTop="10dp"
-        style="@style/statusTextLabel"/>
+        android:layout_centerInParent="true"
+        android:layout_marginTop="10dp"/>
 
 
-    <Button android:id="@+id/button_new_game"
-            android:text="@string/button_start_game"
-            style="@style/btnStyleGenoa"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/game_grid_layout"
-            android:layout_alignParentBottom="true"
-            android:layout_centerInParent="true"
-            android:layout_margin="20dp"
-            android:onClick="newGame"/>
-
+    <Button
+        android:id="@+id/button_new_game"
+        style="@style/btnStyleGenoa"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/game_grid_layout"
+        android:layout_centerInParent="true"
+        android:layout_margin="20dp"
+        android:onClick="newGame"
+        android:text="@string/button_start_game"/>
 
 </RelativeLayout>
