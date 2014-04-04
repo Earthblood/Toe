@@ -2,6 +2,7 @@
 <resources>
 
     <string name="app_name">Toe</string>
+    <string name="tic_tac_toe">Tic Tac Toe</string>
     <string name="number_of_players">Players</string>
     <string name="coin_toss">Coin Toss</string>
     <string name="number_1">1</string>

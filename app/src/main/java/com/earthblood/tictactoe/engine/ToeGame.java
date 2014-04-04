@@ -33,6 +33,10 @@ public class ToeGame {
         this.preferenceHelper = preferenceHelper;
     }
 
+    public String titleHack(String appName, String statusMessage){
+        return "<font color=#CD5C5C><b>" + appName  + "</b></font><font color=#F5F5F5>&nbsp;&nbsp;&nbsp;" + statusMessage +"</font>";
+    }
+
     public void setSkill(Skill skill){
         preferenceHelper.putPreference(skill.getId(), PREF_SKILL_ID, Context.MODE_PRIVATE);
     }

@@ -2,6 +2,7 @@ package com.earthblood.tictactoe.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
@@ -50,10 +51,10 @@ public class MainActivity extends RoboActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTitle(Html.fromHtml(toeGame.titleHack(getString(R.string.app_name), getString(R.string.tic_tac_toe))));
         hapticFeedbackHelper.addFeedbackToButtonList(Arrays.asList(buttonNewGame, coinTossButton, onePlayerButton, twoPlayerButton));
         setupSkill();
-        setTitle(getString(R.string.app_name));
-        setTitleColor(getResources().getColor(R.color.IndianRed));
+
     }
 
     @Override

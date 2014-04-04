@@ -56,15 +56,15 @@ public class GameActivity extends RoboFragmentActivity implements LoaderManager.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        titleHack();
+        setupTitle();
+
         initializeButtonFeedback();
         getSupportLoaderManager().initLoader(0, null, this);
     }
 
-    private void titleHack() {
+    private void setupTitle() {
         String gameType = toeGame.isOnePlayerGame()? toeGame.getSkill().toString() : getString(R.string.two_player);
-        String title = "<font color=#CD5C5C><b>" + getString(R.string.app_name)  + "</b></font><font color=#F5F5F5>&nbsp;&nbsp;&nbsp;" + gameType +"</font>";
-        setTitle(Html.fromHtml(title));
+        setTitle(Html.fromHtml(toeGame.titleHack(getString(R.string.app_name), gameType)));
     }
 
     private void initializeButtonFeedback(){
