@@ -18,10 +18,10 @@ TOE was designed to maintain a **minSdkVersion="7"** using the following framewo
 
 *Patterns:*
 
+* TDD
 * Strategy
 * Chain of Responsibility
-* Loader
-* GridLayout
+* GridLayout backed by asynchronous Loader
 * ContentProvider backed by SQLite database
 * Enum initialization with local resources
 
