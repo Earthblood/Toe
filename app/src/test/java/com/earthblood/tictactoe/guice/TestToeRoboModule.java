@@ -3,6 +3,7 @@ package com.earthblood.tictactoe.guice;
 import com.earthblood.tictactoe.engine.ToeGame;
 import com.earthblood.tictactoe.helper.CoinTossHelper;
 import com.earthblood.tictactoe.helper.HapticFeedbackHelper;
+import com.earthblood.tictactoe.helper.HtmlHelper;
 import com.earthblood.tictactoe.helper.PreferenceHelper;
 import com.google.inject.AbstractModule;
 
@@ -21,5 +22,6 @@ public class TestToeRoboModule extends AbstractModule{
         bind(ToeGame.class).toInstance(Mockito.mock(ToeGame.class));
         bind(PreferenceHelper.class).toInstance(Mockito.mock(PreferenceHelper.class));
         bind(CoinTossHelper.class).toInstance(Mockito.mock(CoinTossHelper.class));
+        bind(HtmlHelper.class).toInstance(Mockito.mock(HtmlHelper.class));
     }
 }

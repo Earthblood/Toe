@@ -19,6 +19,7 @@ import com.earthblood.tictactoe.contentprovider.GameContentProvider;
 import com.earthblood.tictactoe.engine.ToeGame;
 import com.earthblood.tictactoe.helper.GameDatabaseHelper;
 import com.earthblood.tictactoe.helper.HapticFeedbackHelper;
+import com.earthblood.tictactoe.helper.HtmlHelper;
 import com.earthblood.tictactoe.strategy.ToeStrategy;
 import com.earthblood.tictactoe.strategy.ToeStrategyExplicit;
 import com.earthblood.tictactoe.util.GameBox;
@@ -51,6 +52,7 @@ public class GameActivity extends RoboFragmentActivity implements LoaderManager.
 
     @Inject ToeGame toeGame;
     @Inject HapticFeedbackHelper hapticFeedbackHelper;
+    @Inject HtmlHelper htmlHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +66,7 @@ public class GameActivity extends RoboFragmentActivity implements LoaderManager.
 
     private void setupTitle() {
         String gameType = toeGame.isOnePlayerGame()? toeGame.getSkill().toString() : getString(R.string.two_player);
-        setTitle(Html.fromHtml(toeGame.titleHack(getString(R.string.app_name), gameType)));
+        setTitle(htmlHelper.fromHtml(toeGame.titleHack(getString(R.string.app_name), gameType)));
     }
 
     private void initializeButtonFeedback(){

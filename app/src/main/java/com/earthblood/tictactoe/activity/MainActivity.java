@@ -2,7 +2,6 @@ package com.earthblood.tictactoe.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Html;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
@@ -16,12 +15,12 @@ import com.earthblood.tictactoe.R;
 import com.earthblood.tictactoe.engine.ToeGame;
 import com.earthblood.tictactoe.helper.CoinTossHelper;
 import com.earthblood.tictactoe.helper.HapticFeedbackHelper;
+import com.earthblood.tictactoe.helper.HtmlHelper;
 import com.earthblood.tictactoe.util.GameSymbol;
 import com.earthblood.tictactoe.util.Skill;
+import com.google.inject.Inject;
 
 import java.util.Arrays;
-
-import javax.inject.Inject;
 
 import roboguice.activity.RoboActivity;
 import roboguice.inject.ContentView;
@@ -44,14 +43,16 @@ public class MainActivity extends RoboActivity {
     @InjectView(R.id.button_new_game)        Button buttonNewGame;
     @InjectView(R.id.coin_toss_button)       Button coinTossButton;
 
-    @Inject ToeGame toeGame;
+    @Inject
+    ToeGame toeGame;
     @Inject CoinTossHelper coinTossHelper;
     @Inject HapticFeedbackHelper hapticFeedbackHelper;
+    @Inject HtmlHelper htmlHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTitle(Html.fromHtml(toeGame.titleHack(getString(R.string.app_name), getString(R.string.tic_tac_toe))));
+        setTitle(htmlHelper.fromHtml(toeGame.titleHack(getString(R.string.app_name), getString(R.string.tic_tac_toe))));
         hapticFeedbackHelper.addFeedbackToButtonList(Arrays.asList(buttonNewGame, coinTossButton, onePlayerButton, twoPlayerButton));
         setupSkill();
 
