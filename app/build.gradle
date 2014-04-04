@@ -50,7 +50,6 @@ android {
 dependencies {
     testCompile 'junit:junit:4.10'
     compile 'com.android.support:gridlayout-v7:19.0.1'
-    compile 'com.android.support:appcompat-v7:+'
     compile 'com.android.support:support-v4:19.0.+'
     compile 'org.roboguice:roboguice:2.0'
     compile 'org.apache.commons:commons-lang3:3.3.1@jar'

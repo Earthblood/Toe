@@ -1,6 +1,5 @@
 <resources>
 
-
     <style name="btnStyleToe" parent="@android:style/Widget.Button">
         <item name="android:textSize">40sp</item>
         <item name="android:textStyle">bold</item>
