@@ -54,9 +54,8 @@ public class StrategyItemPatternDetector extends StrategyItem {
     public int getBoxId(int[] selectedXBoxIds, int[] selectedOBoxIds, GameSymbol androidSymbol) {
 
         int[] selectedBoxesToInspect = symbolToDetect == GameSymbol.X ? selectedXBoxIds : selectedOBoxIds;
-
-        //Guard against selecting more patterns than exist.
-        numberOfPatternsToDetect = numberOfPatternsToDetect > GameWinPattern.values().length ? GameWinPattern.values().length : numberOfPatternsToDetect;
+        numberOfPatternsToDetect     = numberOfPatternsToDetect > GameWinPattern.values().length ?
+                                                                  GameWinPattern.values().length : numberOfPatternsToDetect;
 
         GameWinPattern[] gameWinPatternsSubSet = GameWinPattern.randomBunchOfWinningPatterns(numberOfPatternsToDetect, getRandomObject());
 
@@ -75,6 +74,5 @@ public class StrategyItemPatternDetector extends StrategyItem {
             }
         }
         return NOT_FOUND;
-
     }
 }
