@@ -1,3 +1,5 @@
+import java.util.regex.Pattern
+
 apply plugin: 'android'
 apply plugin: 'android-test'
 
@@ -9,17 +11,10 @@ android {
     defaultConfig {
         minSdkVersion 7
         targetSdkVersion 19
-        versionCode 1
-        versionName "1.0"
+        versionName "1.0.0"
     }
     sourceSets {
         androidTest.setRoot('src/test')
-    }
-    buildTypes {
-        release {
-            runProguard false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
-        }
     }
 
     if(project.hasProperty("MyProject.properties") && new File(project.property("MyProject.properties")).exists()) {
@@ -28,6 +23,7 @@ android {
         props.load(new FileInputStream(file(project.property("MyProject.properties"))))
 
         signingConfigs {
+
             release {
                 storeFile file(props['keystore'])
                 storePassword props['keystore.password']
@@ -36,6 +32,17 @@ android {
             }
         }
     }
+
+    buildTypes {
+        release {
+            runProguard false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+
+            signingConfig signingConfigs.release
+        }
+    }
+
+
 }
 
 dependencies {
@@ -82,4 +89,49 @@ task addTest {
 // always do the addtest on prebuild
 gradle.projectsEvaluated {
     preBuild.dependsOn(addTest)
+   /* generateReleaseBuildConfig.dependsOn(increaseVersionCode)*/
+}
+
+
+
+def getVersionCode(manifestLocation, increment = false) {
+    def manifestFile = file(manifestLocation)
+    if (!manifestFile.exists()) {
+    /*    throw new Exception(manifestLocation + "  ---- NO MANIFEST FILE")*/
+        return -1
+    }
+    def pattern = Pattern.compile("versionCode=\"(\\d+)\"")
+    def manifestText = manifestFile.getText()
+    def matcher = pattern.matcher(manifestText)
+    matcher.find()
+    def versionCode = Integer.parseInt(matcher.group(1))
+    if (increment) {
+        def manifestContent = matcher.replaceAll("versionCode=\"" + ++versionCode + "\"")
+        manifestFile.write(manifestContent)
+    }
+    return versionCode
+}
+
+task('increaseVersionCode') << {
+    getVersionCode("src/main/AndroidManifest.xml", true)
+}
+
+android.applicationVariants.all { variant ->
+
+    def apk = variant.outputFile
+
+    def newManifest = variant.processManifest.manifestOutputFile
+    def versionCode = getVersionCode(newManifest.path)
+    if (versionCode == -1) {
+        return
+    }
+    def newName
+    if (variant.buildType.versionNameSuffix) {
+        newName = "Toe-v${versionCode}-${android.defaultConfig.versionName}-${variant.buildType.versionNameSuffix}.apk"
+    } else {
+        newName = "Toe-v${versionCode}-${android.defaultConfig.versionName}.apk"
+    }
+
+//noinspection GroovyAssignabilityCheck
+    variant.outputFile = new File(apk.parentFile, newName)
 }
