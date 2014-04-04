@@ -27,4 +27,10 @@ TOE was designed to maintain a **minSdkVersion="7"** using the following framewo
 
 *TOE was designed and optimized on a classic Nexus One running CyanogenMod 7.2*
 
+Downloads
+=================
+
+**TOE** can be downloaded from the Play Store here:
+
+[https://play.google.com/store/apps/details?id=com.earthblood.tictactoe] (https://play.google.com/store/apps/details?id=com.earthblood.tictactoe)
 
