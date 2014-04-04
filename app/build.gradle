@@ -35,10 +35,12 @@ android {
 
     buildTypes {
         release {
+            signingConfig signingConfigs.release
+            debuggable false
+            zipAlign true
             runProguard false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
 
-            signingConfig signingConfigs.release
         }
     }
 
@@ -97,7 +99,6 @@ gradle.projectsEvaluated {
 def getVersionCode(manifestLocation, increment = false) {
     def manifestFile = file(manifestLocation)
     if (!manifestFile.exists()) {
-    /*    throw new Exception(manifestLocation + "  ---- NO MANIFEST FILE")*/
         return -1
     }
     def pattern = Pattern.compile("versionCode=\"(\\d+)\"")
