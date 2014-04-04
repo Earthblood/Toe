@@ -52,7 +52,7 @@ public class MainActivity extends RoboActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTitle(htmlHelper.fromHtml(toeGame.titleHack(getString(R.string.app_name), getString(R.string.tic_tac_toe))));
+        setTitle(htmlHelper.fromHtml(toeGame.titleHack(getString(R.string.app_name_short), getString(R.string.tic_tac_toe))));
         hapticFeedbackHelper.addFeedbackToButtonList(Arrays.asList(buttonNewGame, coinTossButton, onePlayerButton, twoPlayerButton));
         setupSkill();
 

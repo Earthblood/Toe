@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Toe</string>
+    <string name="app_name">Tic Tac Toe</string>
+    <string name="app_name_short">Toe</string>
+    <string name="app_description">A Tic Tac Toe game for 1 or 2 players with multiple skill levels</string>
     <string name="tic_tac_toe">Tic Tac Toe</string>
     <string name="number_of_players">Players</string>
     <string name="coin_toss">Coin Toss</string>

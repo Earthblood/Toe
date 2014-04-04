@@ -8,7 +8,6 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.widget.GridLayout;
-import android.text.Html;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -66,7 +65,7 @@ public class GameActivity extends RoboFragmentActivity implements LoaderManager.
 
     private void setupTitle() {
         String gameType = toeGame.isOnePlayerGame()? toeGame.getSkill().toString() : getString(R.string.two_player);
-        setTitle(htmlHelper.fromHtml(toeGame.titleHack(getString(R.string.app_name), gameType)));
+        setTitle(htmlHelper.fromHtml(toeGame.titleHack(getString(R.string.app_name_short), gameType)));
     }
 
     private void initializeButtonFeedback(){
