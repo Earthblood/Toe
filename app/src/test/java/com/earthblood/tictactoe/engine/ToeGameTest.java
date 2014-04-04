@@ -1,3 +1,21 @@
+/**
+ * @author John Piser developer@earthblood.com
+ *
+ * Copyright (C) 2014 EARTHBLOOD, LLC
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
 package com.earthblood.tictactoe.engine;
 
 import android.content.ContentResolver;
@@ -10,6 +28,7 @@ import com.earthblood.tictactoe.helper.GameDatabaseHelper;
 import com.earthblood.tictactoe.helper.PreferenceHelper;
 import com.earthblood.tictactoe.strategy.ToeStrategyExplicit;
 import com.earthblood.tictactoe.strategy.ToeStrategy;
+import com.earthblood.tictactoe.util.GamePreference;
 import com.earthblood.tictactoe.util.GameSymbol;
 import com.earthblood.tictactoe.util.Skill;
 
@@ -26,10 +45,6 @@ import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-/**
- * @author John Piser developer@earthblood.com
- *         Copyright 2014.
- */
 @Config(emulateSdk = 18)
 @RunWith(RobolectricGradleTestRunner.class)
 public class ToeGameTest {
@@ -51,25 +66,25 @@ public class ToeGameTest {
     @Test
     public void shouldSetSkill(){
         toeGame.setSkill(Skill.HARD);
-        verify(preferenceHelper).putPreference(eq(Skill.HARD.getId()), eq(ToeGame.PREF_SKILL_ID), eq(Context.MODE_PRIVATE));
+        verify(preferenceHelper).putPreference(eq(Skill.HARD.getId()), eq(GamePreference.PREF_SKILL_ID.getKey()), eq(Context.MODE_PRIVATE));
     }
     @Test
     public void shouldSetNumberOfPlayers(){
         toeGame.setNumOfPlayers(2);
-        verify(preferenceHelper).putPreference(eq(2), eq(ToeGame.PREF_NUMBER_OF_PLAYERS), eq(Context.MODE_PRIVATE));
+        verify(preferenceHelper).putPreference(eq(2), eq(GamePreference.PREF_NUMBER_OF_PLAYERS.getKey()), eq(Context.MODE_PRIVATE));
     }
     @Test
     public void shouldDefaultToXGoesFirst(){
-        when(preferenceHelper.getPreference(eq(ToeGame.PREF_TURN), eq(GameSymbol.X.getId()))).thenReturn(GameSymbol.X.getId());
+        when(preferenceHelper.getPreference(eq(GamePreference.PREF_TURN.getKey()), eq(GameSymbol.X.getId()))).thenReturn(GameSymbol.X.getId());
         GameSymbol turn = toeGame.getTurn();
         assertEquals(GameSymbol.X, turn);
     }
     @Test
     public void shouldSetTurn(){
         toeGame.setTurn(GameSymbol.O);
-        verify(preferenceHelper).putPreference(eq(GameSymbol.O.getId()), eq(ToeGame.PREF_TURN), eq(Context.MODE_PRIVATE));
+        verify(preferenceHelper).putPreference(eq(GameSymbol.O.getId()), eq(GamePreference.PREF_TURN.getKey()), eq(Context.MODE_PRIVATE));
 
-        when(preferenceHelper.getPreference(eq(ToeGame.PREF_TURN), eq(GameSymbol.X.getId()))).thenReturn(GameSymbol.O.getId());
+        when(preferenceHelper.getPreference(eq(GamePreference.PREF_TURN.getKey()), eq(GameSymbol.X.getId()))).thenReturn(GameSymbol.O.getId());
         GameSymbol turn = toeGame.getTurn();
         assertEquals(GameSymbol.O, turn);
     }
@@ -86,7 +101,7 @@ public class ToeGameTest {
     @Test
     public void shouldAdvanceTurn(){
         simulateChooseBoxForO();
-        verify(preferenceHelper).putPreference(eq(GameSymbol.X.getId()), eq(ToeGame.PREF_TURN), eq(Context.MODE_PRIVATE));
+        verify(preferenceHelper).putPreference(eq(GameSymbol.X.getId()), eq(GamePreference.PREF_TURN.getKey()), eq(Context.MODE_PRIVATE));
     }
     @Test
     public void shouldResetGame(){
