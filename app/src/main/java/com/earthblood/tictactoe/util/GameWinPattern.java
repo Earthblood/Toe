@@ -1,10 +1,5 @@
 package com.earthblood.tictactoe.util;
 
-import android.util.Log;
-
-import com.earthblood.tictactoe.application.Toe;
-
-import java.util.Arrays;
 import java.util.Random;
 
 /**
@@ -84,7 +79,6 @@ public enum GameWinPattern {
             ordinalValues[r] = tmpN;
             ordinalValues[n] = tmpR;
         }
-        Log.d(Toe.TAG, "Ordinal values are:" + Arrays.toString(ordinalValues));
 
         for (int p =0; p < numberOfPatterns; p++) {
             returnedPatterns[p] = GameWinPattern.values()[ordinalValues[p]];
