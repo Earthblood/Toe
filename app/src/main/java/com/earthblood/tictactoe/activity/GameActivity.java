@@ -40,10 +40,6 @@ import roboguice.inject.InjectView;
 @ContentView(R.layout.activity_game)
 public class GameActivity extends RoboFragmentActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
-    public static final String SORT_DIRECTION = " ASC";
-    public static final int TOTAL_NUMBER_OF_BOXES = 9;
-
-
     @InjectView(R.id.game_grid_layout)             GridLayout gridLayout;
     @InjectView(R.id.message_turn_indicator_value) TextView messageTurnIndicatorValue;
     @InjectView(R.id.message_turn_indicator)       TextView getMessageTurnIndicator;
@@ -58,7 +54,6 @@ public class GameActivity extends RoboFragmentActivity implements LoaderManager.
         super.onCreate(savedInstanceState);
 
         setupTitle();
-
         initializeButtonFeedback();
         getSupportLoaderManager().initLoader(0, null, this);
     }
@@ -120,7 +115,7 @@ public class GameActivity extends RoboFragmentActivity implements LoaderManager.
     private void endTurn(int[] selectedXBoxIds, int[] selectedOBoxIds, int totalBoxesSelected) {
 
         GameSymbol winningSymbol = GameSymbol.X;
-        boolean allBoxesFilled = totalBoxesSelected == TOTAL_NUMBER_OF_BOXES;
+        boolean allBoxesFilled = totalBoxesSelected == GameBox.values().length;
         GameWinPattern gameWinPattern = GameWinPattern.checkForWin(selectedXBoxIds);
         if(gameWinPattern == null){
             gameWinPattern = GameWinPattern.checkForWin(selectedOBoxIds);
@@ -173,7 +168,7 @@ public class GameActivity extends RoboFragmentActivity implements LoaderManager.
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         String[] projection = {GameDatabaseHelper.COLUMN_ID, GameDatabaseHelper.COLUMN_GAME_BOX_ID, GameDatabaseHelper.COLUMN_GAME_SYMBOL_ID};
-        CursorLoader cursorLoader = new CursorLoader(this, GameContentProvider.CONTENT_URI, projection, null, null, GameDatabaseHelper.COLUMN_GAME_BOX_ID + SORT_DIRECTION);
+        CursorLoader cursorLoader = new CursorLoader(this, GameContentProvider.CONTENT_URI, projection, null, null, GameDatabaseHelper.COLUMN_GAME_BOX_ID + GameDatabaseHelper.SORT_DIRECTION);
         return cursorLoader;
 
     }

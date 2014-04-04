@@ -43,8 +43,7 @@ public class MainActivity extends RoboActivity {
     @InjectView(R.id.button_new_game)        Button buttonNewGame;
     @InjectView(R.id.coin_toss_button)       Button coinTossButton;
 
-    @Inject
-    ToeGame toeGame;
+    @Inject ToeGame toeGame;
     @Inject CoinTossHelper coinTossHelper;
     @Inject HapticFeedbackHelper hapticFeedbackHelper;
     @Inject HtmlHelper htmlHelper;
@@ -61,6 +60,7 @@ public class MainActivity extends RoboActivity {
     @Override
     protected void onResume(){
         super.onResume();
+
         toeGame.reset(getContentResolver());
         initializeSkill();
         initializeNumberOfPlayers();

@@ -15,6 +15,7 @@ public class GameDatabaseHelper extends SQLiteOpenHelper{
     public static final String COLUMN_ID = "_id";
     public static final String COLUMN_GAME_BOX_ID = "game_box_id";
     public static final String COLUMN_GAME_SYMBOL_ID = "game_symbol_id";
+    public static final String SORT_DIRECTION = " ASC";
     private static final String DATABASE_NAME = "game.db";
     private static final int DATABASE_VERSION = 1;
 
