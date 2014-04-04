@@ -1,9 +1,5 @@
 <resources>
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-
-    </style>
 
     <style name="btnStyleToe" parent="@android:style/Widget.Button">
         <item name="android:textSize">40sp</item>
