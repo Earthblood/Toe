@@ -6,21 +6,24 @@ apply plugin: 'android-test'
 
 android {
     compileSdkVersion 19
-    buildToolsVersion '19.0.2'
+    buildToolsVersion '19.0.3'
 
     defaultConfig {
-        minSdkVersion 7
-        targetSdkVersion 19
-        versionName "1.0.0"
+        //minSdkVersion 7
+        //targetSdkVersion 19
     }
     sourceSets {
         androidTest.setRoot('src/test')
     }
+    lintOptions {
+        abortOnError true
+        warningsAsErrors true
+    }
 
-    if(project.hasProperty("MyProject.properties") && new File(project.property("MyProject.properties")).exists()) {
+    if(project.hasProperty("signing.properties") && new File(project.property("signing.properties")).exists()) {
 
         Properties props = new Properties()
-        props.load(new FileInputStream(file(project.property("MyProject.properties"))))
+        props.load(new FileInputStream(file(project.property("signing.properties"))))
 
         signingConfigs {
 
@@ -47,10 +50,12 @@ android {
 
 }
 
+
+
 dependencies {
     testCompile 'junit:junit:4.10'
     compile 'com.android.support:gridlayout-v7:19.0.1'
-    compile 'com.android.support:support-v4:19.0.+'
+    compile 'com.android.support:support-v4:19.1.0'
     compile 'org.roboguice:roboguice:2.0'
     compile 'org.apache.commons:commons-lang3:3.3.1@jar'
     compile fileTree(dir: 'libs', include: ['*.jar'])
@@ -90,48 +95,44 @@ task addTest {
 // always do the addtest on prebuild
 gradle.projectsEvaluated {
     preBuild.dependsOn(addTest)
-   /* generateReleaseBuildConfig.dependsOn(increaseVersionCode)*/
 }
 
+def getManifestProperty(manifestLocation, Pattern pattern) {
 
-
-def getVersionCode(manifestLocation, increment = false) {
     def manifestFile = file(manifestLocation)
     if (!manifestFile.exists()) {
         return -1
     }
-    def pattern = Pattern.compile("versionCode=\"(\\d+)\"")
     def manifestText = manifestFile.getText()
     def matcher = pattern.matcher(manifestText)
     matcher.find()
-    def versionCode = Integer.parseInt(matcher.group(1))
-    if (increment) {
-        def manifestContent = matcher.replaceAll("versionCode=\"" + ++versionCode + "\"")
-        manifestFile.write(manifestContent)
-    }
-    return versionCode
-}
+    def manifestProperty = matcher.group(1);
 
-task('increaseVersionCode') << {
-    getVersionCode("src/main/AndroidManifest.xml", true)
+    return manifestProperty
 }
 
 android.applicationVariants.all { variant ->
 
     def apk = variant.outputFile
-
     def newManifest = variant.processManifest.manifestOutputFile
-    def versionCode = getVersionCode(newManifest.path)
+
+    def pattern = Pattern.compile("versionCode=\"(\\d+)\"")
+    def versionCode = getManifestProperty(newManifest.path, pattern)
+
+    pattern = Pattern.compile("versionName=\"([0-9].[0-9].[0-9])\"")
+    def versionName = getManifestProperty(newManifest.path, pattern)
+
     if (versionCode == -1) {
         return
     }
     def newName
     if (variant.buildType.versionNameSuffix) {
-        newName = "Toe-v${versionCode}-${android.defaultConfig.versionName}-${variant.buildType.versionNameSuffix}.apk"
-    } else {
-        newName = "Toe-v${versionCode}-${android.defaultConfig.versionName}.apk"
+        newName = "Toe-v${versionCode}-${versionName}-${variant.buildType.versionNameSuffix}.apk"
+    }
+    else {
+        newName = "Toe-v${versionCode}-${versionName}.apk"
     }
 
-//noinspection GroovyAssignabilityCheck
+    //noinspection GroovyAssignabilityCheck
     variant.outputFile = new File(apk.parentFile, newName)
 }

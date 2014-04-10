@@ -6,7 +6,6 @@
     <string name="app_description">A Tic Tac Toe game for 1 or 2 players with multiple skill levels</string>
     <string name="tic_tac_toe">Tic Tac Toe</string>
     <string name="number_of_players">Players</string>
-    <string name="coin_toss">Coin Toss</string>
     <string name="number_1">1</string>
     <string name="number_2">2</string>
     <string name="message_you_will_be">You: X Android: O</string>
@@ -16,14 +15,11 @@
     <string name="button_start_game">Play</string>
     <string name="new_game">New Game</string>
     <string name="computer_thinking">Thinking</string>
-    <string name="done">Done </string>
     <string name="two_player">Two Player</string>
 
     <string name="game_message_wins">%s WINS!</string>
     <string name="game_message_draw">DRAW!</string>
     <string name="game_message_over">GAME OVER</string>
-
-    <string name="action_settings">Settings</string>
 
     <!-- Skill Level-->
     <string name="skill_easy">Easy</string>
