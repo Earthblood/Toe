@@ -30,7 +30,16 @@ TOE was designed to maintain a **minSdkVersion="7"** using the following framewo
 Downloads
 =================
 
-**TOE** can be downloaded from the Play Store here:
+**TOE** is available for download from:
+
+Google Play Store:
 
 [https://play.google.com/store/apps/details?id=com.earthblood.tictactoe] (https://play.google.com/store/apps/details?id=com.earthblood.tictactoe)
+
+F-Droid:
+
+[https://f-droid.org/repository/browse/?fdid=com.earthblood.tictactoe] (https://f-droid.org/repository/browse/?fdid=com.earthblood.tictactoe)
+
+
+
 
