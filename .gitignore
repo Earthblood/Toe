@@ -1,4 +1,3 @@
-gradle.properties
 .DS_Store
 .classpath
 project.properties
@@ -18,6 +17,5 @@ build.log
 build-log.xml
 .gradle
 build
-signing.properties
 library/lib/
 library/obj/
