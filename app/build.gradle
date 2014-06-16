@@ -34,18 +34,19 @@ android {
                 keyPassword props['keyPassword']
             }
         }
-    }
 
-    buildTypes {
-        release {
-            signingConfig signingConfigs.release
-            debuggable false
-            zipAlign true
-            runProguard false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+        buildTypes {
+            release {
+                signingConfig signingConfigs.release
+                debuggable false
+                zipAlign true
+                runProguard false
+                proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
 
+            }
         }
     }
+
 
 
 }
