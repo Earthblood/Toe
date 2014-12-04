@@ -1,12 +1,12 @@
 import java.util.regex.Pattern
 
-apply plugin: 'android'
-apply plugin: 'android-test'
+apply plugin: 'com.android.application'
+apply plugin: 'robolectric'
 
 
 android {
     compileSdkVersion 19
-    buildToolsVersion '19.0.3'
+    buildToolsVersion '21.0.2'
 
     defaultConfig {
         //minSdkVersion 7
@@ -15,9 +15,10 @@ android {
     sourceSets {
         androidTest.setRoot('src/test')
     }
+
     lintOptions {
-        abortOnError true
-        warningsAsErrors true
+        abortOnError false
+        warningsAsErrors false
     }
 
     if(project.hasProperty("signing.properties") && new File(project.property("signing.properties")).exists()) {
@@ -60,11 +61,11 @@ dependencies {
     compile 'org.roboguice:roboguice:2.0'
     compile 'org.apache.commons:commons-lang3:3.3.1@jar'
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    testCompile 'org.robolectric:robolectric:2.3-SNAPSHOT'
+    testCompile 'org.robolectric:robolectric:2.4+'
     testCompile 'com.squareup:fest-android:1.0.+'
     testCompile 'org.mockito:mockito-all:+'
     androidTestCompile 'junit:junit:4.10'
-    androidTestCompile 'org.robolectric:robolectric:2.3-SNAPSHOT'
+    testCompile 'org.robolectric:robolectric:2.4+'
     androidTestCompile 'com.squareup:fest-android:1.0.+'
     androidTestCompile 'org.mockito:mockito-all:+'
 }
