@@ -18,6 +18,8 @@
  */
 package com.earthblood.tictactoe.guice;
 
+import android.app.Application;
+
 import com.earthblood.tictactoe.engine.ToeGame;
 import com.earthblood.tictactoe.helper.CoinTossHelper;
 import com.earthblood.tictactoe.helper.HapticFeedbackHelper;
@@ -28,6 +30,12 @@ import com.google.inject.AbstractModule;
 import org.mockito.Mockito;
 
 public class TestToeRoboModule extends AbstractModule{
+
+    private final Application application;
+
+    public TestToeRoboModule(Application application) {
+        this.application = application;
+    }
 
     @Override
     protected void configure() {

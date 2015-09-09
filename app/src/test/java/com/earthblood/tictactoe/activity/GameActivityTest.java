@@ -24,8 +24,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.widget.Button;
 
+import com.earthblood.tictactoe.BuildConfig;
 import com.earthblood.tictactoe.R;
-import com.earthblood.tictactoe.Robolectric.RobolectricGradleTestRunner;
 import com.earthblood.tictactoe.engine.ToeGame;
 import com.earthblood.tictactoe.helper.HapticFeedbackHelper;
 import com.earthblood.tictactoe.strategy.ToeStrategy;
@@ -41,6 +41,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.robolectric.Robolectric;
+import org.robolectric.RobolectricGradleTestRunner;
+import org.robolectric.Shadows;
 import org.robolectric.annotation.Config;
 import org.robolectric.shadows.ShadowActivity;
 
@@ -50,7 +52,7 @@ import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@Config(emulateSdk = 18)
+@Config(constants = BuildConfig.class)
 @RunWith(RobolectricGradleTestRunner.class)
 public class GameActivityTest {
 
@@ -66,7 +68,7 @@ public class GameActivityTest {
     public void setup() {
         when(toeGame.getTurn()).thenReturn(GameSymbol.X);
         activity = Robolectric.buildActivity(GameActivity.class).create().start().resume().get();
-        shadowActivity = Robolectric.shadowOf(activity);
+        shadowActivity = Shadows.shadowOf(activity);
     }
 
     @Test

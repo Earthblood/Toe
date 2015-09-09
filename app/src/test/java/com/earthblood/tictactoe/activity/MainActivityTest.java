@@ -24,8 +24,8 @@ import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 
+import com.earthblood.tictactoe.BuildConfig;
 import com.earthblood.tictactoe.R;
-import com.earthblood.tictactoe.Robolectric.RobolectricGradleTestRunner;
 import com.earthblood.tictactoe.engine.ToeGame;
 import com.earthblood.tictactoe.helper.CoinTossHelper;
 import com.earthblood.tictactoe.util.GameSymbol;
@@ -39,6 +39,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.robolectric.Robolectric;
+import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.annotation.Config;
 
 import static org.fest.assertions.api.ANDROID.assertThat;
@@ -49,7 +50,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@Config(emulateSdk = 18)
+@Config(constants = BuildConfig.class)
 @RunWith(RobolectricGradleTestRunner.class)
 public class MainActivityTest {
 

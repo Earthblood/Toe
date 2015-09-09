@@ -34,7 +34,7 @@ public class Toe extends Application {
     public void onCreate() {
         super.onCreate();
 
-        RoboGuice.setBaseApplicationInjector(this, RoboGuice.DEFAULT_STAGE, RoboGuice.newDefaultRoboModule(this), new ToeRoboModule());
+        RoboGuice.overrideApplicationInjector(this, new ToeRoboModule());
 
         context = this;
     }

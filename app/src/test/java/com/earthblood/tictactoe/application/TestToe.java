@@ -19,9 +19,8 @@
 package com.earthblood.tictactoe.application;
 
 import com.earthblood.tictactoe.guice.TestToeRoboModule;
-import com.earthblood.tictactoe.guice.ToeRoboModule;
 
-import org.robolectric.Robolectric;
+import org.robolectric.RuntimeEnvironment;
 import org.robolectric.TestLifecycleApplication;
 
 import java.lang.reflect.Method;
@@ -30,11 +29,17 @@ import roboguice.RoboGuice;
 
 @SuppressWarnings("UnusedDeclaration")
 public class TestToe extends Toe implements TestLifecycleApplication {
+
+    static {
+        //TODO:Disabling roboblender for tests until time to figure out why it wasn't working
+        RoboGuice.setUseAnnotationDatabases(false);
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
 
-        RoboGuice.setBaseApplicationInjector(this, RoboGuice.DEFAULT_STAGE, RoboGuice.newDefaultRoboModule(this), new ToeRoboModule());
+        //RoboGuice.setBaseApplicationInjector(this, RoboGuice.DEFAULT_STAGE, RoboGuice.newDefaultRoboModule(this), new ToeRoboModule());
     }
 
     @Override
@@ -43,9 +48,9 @@ public class TestToe extends Toe implements TestLifecycleApplication {
 
     @Override
     public void prepareTest(Object test) {
-        TestToe application = (TestToe) Robolectric.application;
+        TestToe application = (TestToe) RuntimeEnvironment.application;
 
-        RoboGuice.setBaseApplicationInjector(application, RoboGuice.DEFAULT_STAGE, RoboGuice.newDefaultRoboModule(application), new TestToeRoboModule());
+        RoboGuice.overrideApplicationInjector(this, new TestToeRoboModule(this));
 
         RoboGuice.getInjector(application).injectMembers(test);
     }

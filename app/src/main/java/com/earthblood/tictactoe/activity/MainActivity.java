@@ -106,15 +106,25 @@ public class MainActivity extends RoboActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 hapticFeedbackHelper.vibrate(HapticFeedbackHelper.VIBE_PATTERN_SHORT, HapticFeedbackHelper.VIBE_PATTERN_NO_REPEAT);
                 Skill skill = (Skill) parent.getItemAtPosition(position);
-                ((TextView) parent.getChildAt(0)).setTextColor(getResources().getColor(R.color.lime));
-                ((TextView) parent.getChildAt(0)).setGravity(Gravity.CENTER);
+                HighlightSelectedItem(parent);
                 toeGame.setSkill(skill);
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
             }
         });
+    }
+
+    private void HighlightSelectedItem(AdapterView<?> parent) {
+        if(parent != null){
+            TextView textView = (TextView) parent.getChildAt(0);
+            if(textView != null){
+                textView.setTextColor(getResources().getColor(R.color.lime));
+                textView.setGravity(Gravity.CENTER);
+            }
+        }
     }
 
     private void initializeNumberOfPlayers() {

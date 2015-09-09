@@ -22,12 +22,12 @@ import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 
-import com.earthblood.tictactoe.Robolectric.RobolectricGradleTestRunner;
+import com.earthblood.tictactoe.BuildConfig;
 import com.earthblood.tictactoe.contentprovider.GameContentProvider;
 import com.earthblood.tictactoe.helper.GameDatabaseHelper;
 import com.earthblood.tictactoe.helper.PreferenceHelper;
-import com.earthblood.tictactoe.strategy.ToeStrategyExplicit;
 import com.earthblood.tictactoe.strategy.ToeStrategy;
+import com.earthblood.tictactoe.strategy.ToeStrategyExplicit;
 import com.earthblood.tictactoe.util.GamePreference;
 import com.earthblood.tictactoe.util.GameSymbol;
 import com.earthblood.tictactoe.util.Skill;
@@ -38,6 +38,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.annotation.Config;
 
 import static org.junit.Assert.assertEquals;
@@ -45,7 +46,7 @@ import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@Config(emulateSdk = 18)
+@Config(constants = BuildConfig.class)
 @RunWith(RobolectricGradleTestRunner.class)
 public class ToeGameTest {
 

@@ -1,24 +1,43 @@
-import java.util.regex.Pattern
-
 apply plugin: 'com.android.application'
-apply plugin: 'robolectric'
+apply plugin: 'org.robolectric'
 
 
 android {
-    compileSdkVersion 19
-    buildToolsVersion '21.0.2'
+    compileSdkVersion 21
+    buildToolsVersion '22.0.1'
 
     defaultConfig {
-        //minSdkVersion 7
-        //targetSdkVersion 19
+        applicationId "com.earthblood.tictactoe"
+        minSdkVersion 7
+        targetSdkVersion 21
+        versionCode 2
+        versionName '1.0.1'
+    }
+    dexOptions {
+        jumboMode true
     }
     sourceSets {
-        androidTest.setRoot('src/test')
+        androidTest {
+            setRoot('src/test')
+            java.srcDir file('src/test/java')
+            resources.srcDir file('src/test/resources')
+        }
+
     }
 
     lintOptions {
         abortOnError false
         warningsAsErrors false
+    }
+    packagingOptions {
+        exclude "META-INF/ASL2.0"
+        exclude "META-INF/LICENSE"
+        exclude "META-INF/NOTICE"
+        exclude "META-INF/notice.txt"
+        exclude "META-INF/license.txt"
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'LICENSE.txt'
+        exclude 'META-INF/services/org.robolectric.internal.ShadowProvider'
     }
 
     if(project.hasProperty("signing.properties") && new File(project.property("signing.properties")).exists()) {
@@ -40,11 +59,41 @@ android {
             release {
                 signingConfig signingConfigs.release
                 debuggable false
-                zipAlign true
-                runProguard false
+                zipAlignEnabled true
+                minifyEnabled false
                 proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
 
             }
+        }
+    }
+
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
+    android.testOptions.unitTests.all {
+        // Configure includes / excludes
+        include '**/*Test.class'
+        exclude '**/espresso/**/*.class'
+
+        // Configure max heap size of the test JVM
+        maxHeapSize = '2048m'
+
+        // Configure the test JVM arguments - Does not apply to Java 8
+        jvmArgs '-XX:MaxPermSize=4096m', '-XX:-UseSplitVerifier'
+
+        // Specify max number of processes (default is 1)
+        maxParallelForks = 4
+
+        // Specify max number of test classes to execute in a test process
+        // before restarting the process (default is unlimited)
+        forkEvery = 250
+
+        // configure whether failing tests should fail the build
+        ignoreFailures false
+
+        // use afterTest to listen to the test execution results
+        afterTest { descriptor, result ->
+            println "Executing test for ${descriptor.parent}: ${descriptor.name} with result: ${result.resultType}"
         }
     }
 
@@ -55,86 +104,72 @@ android {
 
 
 dependencies {
-    testCompile 'junit:junit:4.10'
-    compile 'com.android.support:gridlayout-v7:19.0.1'
-    compile 'com.android.support:support-v4:19.1.0'
-    compile 'org.roboguice:roboguice:2.0'
-    compile 'org.apache.commons:commons-lang3:3.3.1@jar'
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    testCompile 'org.robolectric:robolectric:2.4+'
+
+    compile 'com.android.support:gridlayout-v7:22.1.1'
+    compile 'com.android.support:support-v4:22.1.1'
+    compile 'com.android.support:appcompat-v7:22.1.1'
+    compile 'org.apache.commons:commons-lang3:3.3.1@jar'
+
+    compile 'org.roboguice:roboguice:3.0.1'
+    provided 'org.roboguice:roboblender:3.0.1'
+
+
+    testCompile 'org.mockito:mockito-core:1.10.19'
+    testCompile 'junit:junit:4.12'
     testCompile 'com.squareup:fest-android:1.0.+'
-    testCompile 'org.mockito:mockito-all:+'
-    androidTestCompile 'junit:junit:4.10'
-    testCompile 'org.robolectric:robolectric:2.4+'
+    testCompile ('org.robolectric:robolectric:3.0'){
+        exclude group: 'junit' exclude group: 'org.hamcrest', module: 'hamcrest-core'
+    }
+    testCompile ('org.robolectric:shadows-support-v4:3.0'){
+        exclude group: 'junit' exclude group: 'org.hamcrest', module: 'hamcrest-core'
+    }
+
+    androidTestCompile 'org.mockito:mockito-core:1.10.19'
+    androidTestCompile 'junit:junit:4.12'
     androidTestCompile 'com.squareup:fest-android:1.0.+'
-    androidTestCompile 'org.mockito:mockito-all:+'
-}
-
-task addTest {
-    def src = ['src/test/java']
-    def file = file("app.iml")
-
-    doLast {
-        try {
-            def parsedXml = (new XmlParser()).parse(file)
-            def node = parsedXml.component[1].content[0]
-            src.each {
-                def path = 'file://$MODULE_DIR$/' + "${it}"
-                def set = node.find { it.@url == path }
-                if (set == null) {
-                    new Node(node, 'sourceFolder', ['url': 'file://$MODULE_DIR$/' + "${it}", 'isTestSource': "true"])
-                    def writer = new StringWriter()
-                    new XmlNodePrinter(new PrintWriter(writer)).print(parsedXml)
-                    file.text = writer.toString()
-                }
-            }
-        } catch (FileNotFoundException e) {
-            // nop, iml not found
-        }
+    androidTestCompile ('org.robolectric:robolectric:3.0'){
+        exclude group: 'junit' exclude group: 'org.hamcrest', module: 'hamcrest-core'
+    }
+    androidTestCompile ('org.robolectric:shadows-support-v4:3.0'){
+        exclude group: 'junit' exclude group: 'org.hamcrest', module: 'hamcrest-core'
     }
 }
 
-// always do the addtest on prebuild
-gradle.projectsEvaluated {
-    preBuild.dependsOn(addTest)
-}
 
-def getManifestProperty(manifestLocation, Pattern pattern) {
 
-    def manifestFile = file(manifestLocation)
-    if (!manifestFile.exists()) {
-        return -1
-    }
-    def manifestText = manifestFile.getText()
-    def matcher = pattern.matcher(manifestText)
-    matcher.find()
-    def manifestProperty = matcher.group(1);
-
-    return manifestProperty
-}
 
 android.applicationVariants.all { variant ->
 
-    def apk = variant.outputFile
-    def newManifest = variant.processManifest.manifestOutputFile
+    variant.outputs.each { output ->
+        def apk = output.outputFile
+        def newName
 
-    def pattern = Pattern.compile("versionCode=\"(\\d+)\"")
-    def versionCode = getManifestProperty(newManifest.path, pattern)
+        def versionCode = android.defaultConfig.versionCode
 
-    pattern = Pattern.compile("versionName=\"([0-9].[0-9].[0-9])\"")
-    def versionName = getManifestProperty(newManifest.path, pattern)
+        if (variant.buildType.versionNameSuffix) {
+            newName = "Toe-v${versionCode}-${android.defaultConfig.versionName}-${variant.buildType.versionNameSuffix}.apk"
+        }
+        else {
+            newName = "Toe-v${versionCode}-${android.defaultConfig.versionName}.apk"
+        }
 
-    if (versionCode == -1) {
-        return
+        output.outputFile = new File(apk.parentFile, newName)
     }
-    def newName
-    if (variant.buildType.versionNameSuffix) {
-        newName = "Toe-v${versionCode}-${versionName}-${variant.buildType.versionNameSuffix}.apk"
-    }
-    else {
-        newName = "Toe-v${versionCode}-${versionName}.apk"
-    }
+}
 
-    //noinspection GroovyAssignabilityCheck
-    variant.outputFile = new File(apk.parentFile, newName)
+apply plugin: 'idea'
+
+idea {
+    module {
+        testOutputDir = file('build/test-classes/debug')
+    }
+}
+
+project.tasks.withType(JavaCompile) { task ->
+    if (!task.name.contains('Test')) {
+        options.compilerArgs << "-AguiceAnnotationDatabasePackageName=com.earthblood.tictactoe"
+    } else {
+        options.compilerArgs << "-AguiceAnnotationDatabasePackageName=com.earthblood.tictactoe.test"
+    }
 }
